@@ -38,10 +38,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         ButterKnife.bind(this);
         intiView();
     }
+
     private void intiView() {
         initViewPager();
         initBottomNavigationBar();
     }
+
     //viewpager相关操作
     private void initViewPager() {
 
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         //mNavigationBar.setMode(MODE_SHIFTING);
         mNavigationBar.setFitsSystemWindows(true);
         mNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.student,null).setActiveColorResource(R.color.colorAccent))
+                .addItem(new BottomNavigationItem(R.drawable.student, null).setActiveColorResource(R.color.colorAccent))
                 .addItem(new BottomNavigationItem(R.drawable.index, null).setActiveColorResource(R.color.colorPrimary))
                 .addItem(new BottomNavigationItem(R.drawable.my, null).setActiveColorResource(R.color.colorPrimaryDark))
                 .initialise();
