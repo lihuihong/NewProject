@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     //底部导航栏
     private void initBottomNavigationBar() {
+
         mNavigationBar.setTabSelectedListener(this);
         mNavigationBar.clearAll();
         //点击的时候有水波纹效果
