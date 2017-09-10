@@ -2,6 +2,7 @@ package com.example.mrz.newproject.controller.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -20,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.ashokvarma.bottomnavigation.BottomNavigationBar.BACKGROUND_STYLE_RIPPLE;
+import static com.ashokvarma.bottomnavigation.BottomNavigationBar.MODE_SHIFTING;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener, ViewPager.OnPageChangeListener {
 
@@ -69,9 +71,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         //mNavigationBar.setMode(MODE_SHIFTING);
         mNavigationBar.setFitsSystemWindows(true);
         mNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.student,null).setActiveColorResource(R.color.colorAccent))
-                .addItem(new BottomNavigationItem(R.drawable.index, null).setActiveColorResource(R.color.colorPrimary))
-                .addItem(new BottomNavigationItem(R.drawable.my, null).setActiveColorResource(R.color.colorPrimaryDark))
+                .addItem(new BottomNavigationItem(R.drawable.student_press,"什么")
+                        .setInactiveIcon(ContextCompat.getDrawable(this,R.drawable.student)))
+                .addItem(new BottomNavigationItem(R.drawable.index_press, null)
+                        .setInactiveIcon(ContextCompat.getDrawable(this,R.drawable.index)))
+                .addItem(new BottomNavigationItem(R.drawable.my_press, null)
+                        .setInactiveIcon(ContextCompat.getDrawable(this,R.drawable.my)))
                 .initialise();
 
     }
@@ -80,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     @Override
     public void onTabSelected(int position) {
         mViewPager.setCurrentItem(position);
-
     }
 
     @Override
