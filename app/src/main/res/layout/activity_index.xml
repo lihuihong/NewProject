@@ -10,7 +10,7 @@
 
    <TextView
        android:gravity="center"
-       android:text="选课"
+       android:text="课表"
        android:textSize="30dp"
        android:layout_width="match_parent"
        android:layout_height="match_parent"/>

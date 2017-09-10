@@ -21,8 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         app:bnbInactiveColor="@color/white"
-        app:bnbActiveColor="@color/white"
-        app:bnbMode="mode_fixed">
-    </com.ashokvarma.bottomnavigation.BottomNavigationBar>
+        app:bnbActiveColor="@android:color/black"
+        app:bnbMode="mode_fixed"/>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.mrz.newproject.controller.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -20,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.ashokvarma.bottomnavigation.BottomNavigationBar.BACKGROUND_STYLE_RIPPLE;
+import static com.ashokvarma.bottomnavigation.BottomNavigationBar.MODE_SHIFTING;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener, ViewPager.OnPageChangeListener {
 
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         //设置viewpager监听
         mViewPager.addOnPageChangeListener(this);
         //默认选中第一个视图
-        mViewPager.setCurrentItem(0);
+        mViewPager.setCurrentItem(1);
     }
 
     //底部导航栏
@@ -69,12 +71,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         mNavigationBar.setBackgroundStyle(BACKGROUND_STYLE_RIPPLE);
         //mNavigationBar.setMode(mNavigationBar.MODE_DEFAULT);
         //换挡模式，未选中的Item不会显示文字，选中的会显示文字。在切换的时候会有一个像换挡的动画
-        //mNavigationBar.setMode(MODE_SHIFTING);
+        mNavigationBar.setMode(MODE_SHIFTING);
         mNavigationBar.setFitsSystemWindows(true);
+        //点击的时候没有水波纹效果
+        mNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         mNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.student, null).setActiveColorResource(R.color.colorAccent))
-                .addItem(new BottomNavigationItem(R.drawable.index, null).setActiveColorResource(R.color.colorPrimary))
-                .addItem(new BottomNavigationItem(R.drawable.my, null).setActiveColorResource(R.color.colorPrimaryDark))
+                .addItem(new BottomNavigationItem(R.drawable.student_press, "功能")
+                        .setInactiveIcon(ContextCompat.getDrawable(this, R.drawable.student)))
+                .addItem(new BottomNavigationItem(R.drawable.index_press, "课表")
+                        .setInactiveIcon(ContextCompat.getDrawable(this, R.drawable.index)))
+                .addItem(new BottomNavigationItem(R.drawable.my_press, "我")
+                        .setInactiveIcon(ContextCompat.getDrawable(this, R.drawable.my)))
                 .initialise();
 
     }
