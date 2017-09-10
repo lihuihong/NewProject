@@ -19,8 +19,10 @@
         android:id="@+id/bb_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:bnbBackgroundColor="@android:color/white"
-        app:bnbMode="mode_default">
+        android:layout_gravity="center_vertical"
+        app:bnbInactiveColor="@color/white"
+        app:bnbActiveColor="@color/white"
+        app:bnbMode="mode_fixed">
     </com.ashokvarma.bottomnavigation.BottomNavigationBar>
+
 </LinearLayout>
