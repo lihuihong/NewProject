@@ -7,21 +7,20 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               tools:context="com.example.mrz.newproject.controller.activity.MainActivity">
-
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_home"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
     </android.support.v4.view.ViewPager>
-
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/bb_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        app:bnbInactiveColor="@color/white"
-        app:bnbActiveColor="@android:color/black"
-        app:bnbMode="mode_fixed"/>
+        app:bnbInactiveColor="@android:color/black"
+        app:bnbBackgroundColor="@color/white"
+        app:bnbActiveColor="@android:color/black">
+    </com.ashokvarma.bottomnavigation.BottomNavigationBar>
 
 </LinearLayout>

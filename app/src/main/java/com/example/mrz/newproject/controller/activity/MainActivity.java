@@ -21,7 +21,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.ashokvarma.bottomnavigation.BottomNavigationBar.BACKGROUND_STYLE_RIPPLE;
-import static com.ashokvarma.bottomnavigation.BottomNavigationBar.MODE_SHIFTING;
+import static com.ashokvarma.bottomnavigation.BottomNavigationBar.BACKGROUND_STYLE_STATIC;
+import static com.ashokvarma.bottomnavigation.BottomNavigationBar.MODE_FIXED;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener, ViewPager.OnPageChangeListener {
 
@@ -71,10 +72,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         mNavigationBar.setBackgroundStyle(BACKGROUND_STYLE_RIPPLE);
         //mNavigationBar.setMode(mNavigationBar.MODE_DEFAULT);
         //换挡模式，未选中的Item不会显示文字，选中的会显示文字。在切换的时候会有一个像换挡的动画
-        mNavigationBar.setMode(MODE_SHIFTING);
+        mNavigationBar.setMode(MODE_FIXED);
         mNavigationBar.setFitsSystemWindows(true);
         //点击的时候没有水波纹效果
-        mNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+        mNavigationBar.setBackgroundStyle(BACKGROUND_STYLE_STATIC);
         mNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.student_press, "功能")
                         .setInactiveIcon(ContextCompat.getDrawable(this, R.drawable.student)))
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                         .setInactiveIcon(ContextCompat.getDrawable(this, R.drawable.index)))
                 .addItem(new BottomNavigationItem(R.drawable.my_press, "我")
                         .setInactiveIcon(ContextCompat.getDrawable(this, R.drawable.my)))
+                .setFirstSelectedPosition(1)
                 .initialise();
 
     }

@@ -10,7 +10,6 @@
    <TextView
        android:id="@+id/tv_card"
        android:text="一卡通系统"
-       android:drawableLeft=""
        android:layout_width="match_parent"
        android:layout_height="wrap_content"/>
 </LinearLayout>
