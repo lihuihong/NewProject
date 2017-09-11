@@ -23,25 +23,25 @@ public class StudentFragment extends Fragment {
 
     //余额查询
     @BindView(R.id.tv_balance)
-    private TextView mTv_balance;
+    TextView mTv_balance;
     //消费情况查询
     @BindView(R.id.tv_consumption)
-    private TextView mTv_consumption;
+    TextView mTv_consumption;
     //一键挂失
     @BindView(R.id.tv_loss)
-    private TextView mTv_loss;
+    TextView mTv_loss;
     //网上选课
     @BindView(R.id.tv_elective)
-    private TextView mTv_elective;
+    TextView mTv_elective;
     //学生成绩查询
     @BindView(R.id.tv_results)
-    private TextView mTv_results;
+    TextView mTv_results;
     //教学质量一键评价
     @BindView(R.id.tv_evaluation)
-    private TextView mTv_evaluation;
+    TextView mTv_evaluation;
     //学费收费情况查询
     @BindView(R.id.tv_tuition)
-    private TextView mTv_tuition;
+    TextView mTv_tuition;
 
     @Nullable
     @Override

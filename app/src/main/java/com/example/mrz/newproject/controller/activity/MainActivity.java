@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                         .setInactiveIcon(ContextCompat.getDrawable(this, R.drawable.student)))
                 .addItem(new BottomNavigationItem(R.drawable.index_press, "课表")
                         .setInactiveIcon(ContextCompat.getDrawable(this, R.drawable.index)))
-                .addItem(new BottomNavigationItem(R.drawable.my_press, "我")
+                .addItem(new BottomNavigationItem(R.drawable.my_press, "个人")
                         .setInactiveIcon(ContextCompat.getDrawable(this, R.drawable.my)))
                 .setFirstSelectedPosition(1)
                 .initialise();
