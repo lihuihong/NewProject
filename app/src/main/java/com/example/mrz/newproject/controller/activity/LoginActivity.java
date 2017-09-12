@@ -1,37 +1,25 @@
 package com.example.mrz.newproject.controller.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.model.dao.LoginDao;
-import com.example.mrz.newproject.uitls.DBUtils;
 import com.example.mrz.newproject.uitls.DensityUtils;
 import com.example.mrz.newproject.view.LoginAnimator;
 
@@ -84,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 switch (msg.what){
                     case LOGIN_SUCCED:
                         loginSuccedHandler();
-                        finish();
+                        //finish();
                         break;
                     case LOGIN_FAILED:
                         loginFailedHandler();

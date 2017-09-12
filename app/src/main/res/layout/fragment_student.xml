@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               tools:context="com.example.mrz.newproject.controller.activity.MainActivity">
-
+    <include layout="@layout/layout_toolbar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:paddingLeft="8dp"
         android:paddingTop="8dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/document"
-            android:drawablePadding="8dp"
+            android:drawablePadding="12dp"
             android:padding="10dp"
             android:text="余额查询"
             android:textSize="18sp"/>
@@ -65,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/data"
-            android:drawablePadding="8dp"
+            android:drawablePadding="12dp"
             android:padding="10dp"
             android:text="消费情况查询"
             android:textSize="18sp"/>
@@ -80,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/authority"
-            android:drawablePadding="8dp"
+            android:drawablePadding="12dp"
             android:padding="10dp"
             android:text="一键挂失"
             android:textSize="18sp"/>
@@ -134,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/report"
-            android:drawablePadding="8dp"
+            android:drawablePadding="12dp"
             android:padding="10dp"
             android:text="网上选课"
             android:textSize="18sp"/>
@@ -149,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/operation"
-            android:drawablePadding="8dp"
+            android:drawablePadding="12dp"
             android:padding="10dp"
             android:text="学生成绩查询"
             android:textSize="18sp"/>
@@ -164,7 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/approval"
-            android:drawablePadding="8dp"
+            android:drawablePadding="12dp"
             android:padding="10dp"
             android:text="教学质量一键评价"
             android:textSize="18sp"/>
@@ -213,7 +212,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/sales"
-            android:drawablePadding="8dp"
+            android:drawablePadding="12dp"
             android:padding="10dp"
             android:text="学费收费情况查询"
             android:textSize="18sp"/>
