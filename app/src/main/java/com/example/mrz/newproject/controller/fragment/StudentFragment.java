@@ -2,17 +2,19 @@ package com.example.mrz.newproject.controller.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +30,6 @@ import com.example.mrz.newproject.controller.activity.TuitionActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.example.mrz.newproject.R.id.action_search;
 
 /**
  * Created by 那个谁 on 2017/9/10.
@@ -60,9 +60,12 @@ public class StudentFragment extends Fragment {
     //学费收费情况查询
     @BindView(R.id.tv_tuition)
     TextView mTv_tuition;
+    //刷新图标
+    @BindView(R.id.iv_refresh)
+    ImageView mIv_refresh;
     //toolbar
-    @BindView(R.id.student_toolbar)
-    Toolbar student_toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     View view;
     private Intent mIntent;
@@ -76,37 +79,32 @@ public class StudentFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_student, null);
             ButterKnife.bind(this, view);
-            //Fragment中的onCreateOptionsMenu生效必须先调用setHasOptionsMenu方法，否则Toolbar没有菜单
+            ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
             setHasOptionsMenu(true);
-            //强转, 必须是AppCompatActivity才有这个方法.
-            ((AppCompatActivity) getActivity()).setSupportActionBar(student_toolbar);
         }
 
         return view;
     }
 
-    //toolbar菜单加载
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.menu_main, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    //toolbar 刷新按钮点击事件
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case action_search:
-                Toast.makeText(getActivity(), "刷新", Toast.LENGTH_SHORT).show();
-                break;
+    //刷新事件
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1000:
+                    if (mAnimation != null) {
+                        mIv_refresh.clearAnimation();
+                        Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
         }
-        return super.onOptionsItemSelected(item);
-    }
+    };
 
     //监听事件
     @OnClick({R.id.tv_balance, R.id.tv_consumption, R.id.tv_loss, R.id.tv_elective,
-            R.id.tv_results, R.id.tv_evaluation, R.id.tv_tuition, R.id.student_toolbar})
+            R.id.tv_results, R.id.tv_evaluation, R.id.tv_tuition})
     public void myButton(TextView btn) {
         switch (btn.getId()) {
             //余额查询
@@ -144,8 +142,27 @@ public class StudentFragment extends Fragment {
                 mIntent = new Intent(getActivity(), ElectiveActivity.class);
                 startActivity(mIntent);
                 break;
-
         }
 
     }
+
+    //刷新按钮点击事件
+    @OnClick(R.id.iv_refresh)
+    public void myRefresh() {
+        startAnimation();
+        mHandler.sendEmptyMessageDelayed(1000, 3000);
+    }
+
+    //动画事件
+    private void startAnimation() {
+        mAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.iv_rotating);
+        //插值器
+        LinearInterpolator ll = new LinearInterpolator();
+        mAnimation.setInterpolator(ll);
+        if (mAnimation != null) {
+            //开始动画
+            mIv_refresh.startAnimation(mAnimation);
+        }
+    }
+
 }

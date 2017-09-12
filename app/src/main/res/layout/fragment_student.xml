@@ -6,7 +6,9 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               tools:context="com.example.mrz.newproject.controller.activity.MainActivity">
+
     <include layout="@layout/layout_toolbar"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,6 +16,7 @@
         android:orientation="vertical"
         android:paddingLeft="8dp"
         android:paddingTop="8dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -207,16 +210,33 @@
             android:layout_marginTop="3dp"
             android:background="#ECECEC"/>
 
-        <TextView
-            android:id="@+id/tv_tuition"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/sales"
-            android:drawablePadding="12dp"
-            android:padding="10dp"
-            android:text="学费收费情况查询"
-            android:textSize="18sp"/>
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_tuition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/sales"
+                    android:drawablePadding="12dp"
+                    android:padding="10dp"
+                    android:text="学费收费情况查询"
+                    android:textSize="18sp"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/more"/>
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <View
