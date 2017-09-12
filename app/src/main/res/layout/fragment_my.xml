@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
     <include layout="@layout/layout_toolbar"/>
 
     <LinearLayout
@@ -37,10 +38,10 @@
                 android:textSize="20dp"/>
 
             <LinearLayout
-                android:paddingTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -76,4 +77,127 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_opinion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/opinion"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="意见提交"
+                android:textSize="15dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:id="@+id/ll_qq"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/qq"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="加入Q群"
+                android:textSize="15dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:id="@+id/ll_document"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:src="@drawable/document"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="免费声明"
+                android:textSize="15dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#ECECEC"/>
+
+    <LinearLayout
+        android:id="@+id/ll_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@drawable/setting"
+                android:drawablePadding="14dp"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="软件设置"
+                android:textSize="15dp"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/more"/>
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

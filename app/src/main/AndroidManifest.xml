@@ -36,6 +36,16 @@
         </activity>
         <activity android:name=".controller.activity.TuitionActivity">
         </activity>
+        <activity android:name=".controller.activity.HanderActivity">
+        </activity>
+        <activity android:name=".controller.activity.OpinionActivity">
+        </activity>
+        <activity android:name=".controller.activity.QqActivity">
+        </activity>
+        <activity android:name=".controller.activity.DocumentActivity">
+        </activity>
+        <activity android:name=".controller.activity.SettingActivity">
+        </activity>
     </application>
 
 </manifest>
