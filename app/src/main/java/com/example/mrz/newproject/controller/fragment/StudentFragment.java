@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ import com.example.mrz.newproject.controller.activity.TuitionActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.example.mrz.newproject.R.id.action_search;
 
 /**
  * Created by 那个谁 on 2017/9/10.
@@ -57,10 +60,14 @@ public class StudentFragment extends Fragment {
     //学费收费情况查询
     @BindView(R.id.tv_tuition)
     TextView mTv_tuition;
+    //toolbar
     @BindView(R.id.student_toolbar)
     Toolbar student_toolbar;
+
     View view;
     private Intent mIntent;
+    //刷新动画
+    private Animation mAnimation;
 
     @Nullable
     @Override
@@ -86,11 +93,11 @@ public class StudentFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    //toolbar点击事件
+    //toolbar 刷新按钮点击事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
+            case action_search:
                 Toast.makeText(getActivity(), "刷新", Toast.LENGTH_SHORT).show();
                 break;
         }
