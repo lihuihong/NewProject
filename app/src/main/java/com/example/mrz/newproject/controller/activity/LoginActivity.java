@@ -1,25 +1,39 @@
 package com.example.mrz.newproject.controller.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.model.dao.LoginDao;
+import com.example.mrz.newproject.uitls.DBUtils;
 import com.example.mrz.newproject.uitls.DensityUtils;
 import com.example.mrz.newproject.view.LoginAnimator;
 
@@ -27,6 +41,12 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+/**
+ * Created by cqcet_三猿 on 2017/9/10.
+ * Mr.z
+ * 作用：登录界面
+ */
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -45,8 +65,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @BindView(R.id.ll_login_post)
     LinearLayout ll_login_post;
-
-    private float mWidth, mHeight;
 
     private Handler mHandler;
 
@@ -72,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 switch (msg.what){
                     case LOGIN_SUCCED:
                         loginSuccedHandler();
-                        //finish();
+                        finish();
                         break;
                     case LOGIN_FAILED:
                         loginFailedHandler();
@@ -86,20 +104,39 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initEvent() {
         login_post.setOnClickListener(this);
         login_help.setOnClickListener(this);
+
+        //获取本地储存，如果学号和密码存在就读取
+        SharedPreferences pref =getSharedPreferences("userInfoData", MODE_PRIVATE);
+        login_userName.setText(pref.getString("userName",""));
+        login_passWord.setText(pref.getString("passWord",""));
     }
 
 
     //登录成功处理
     private void loginSuccedHandler(){
+
+        //如果登录成功，就将学号和密码保存在本地
+        SharedPreferences.Editor editor = getSharedPreferences("userInfoData", MODE_PRIVATE).edit();
+        editor.putString("userName", login_userName.getText().toString());
+        editor.putString("passWord", login_passWord.getText().toString());
+        editor.apply();
+
         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-        Log.d("message",Build.VERSION.SDK_INT+"");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, ll_login_post, "sharedView").toBundle());
-        }else{
-            startActivity(intent);
-        }
-        //startActivity(intent);
+//        Log.d("message",Build.VERSION.SDK_INT+"");
+//        Bundle sharedView = ActivityOptionsCompat.makeSceneTransitionAnimation(this, ll_login_post, "sharedView").toBundle();
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            //启动动画
+//          startActivity(intent, sharedView);
+//            //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, ll_login_post, "sharedView").toBundle());
+//        }else{
+//            startActivity(intent);
+//        }
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+
     }
+
 
 
     //登录失败处理
@@ -178,14 +215,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     break;
                 default:
 
+                    login_userName.setFocusable(false);
+                    login_passWord.setFocusable(false);
                     // 隐藏输入框
                     //login_post.setVisibility(View.INVISIBLE);
                     login_post.setText("");
                     //mPsw.setVisibility(View.INVISIBLE);
 
                     //启动动画
-                    mWidth = login_post.getMeasuredWidth();
-                    mHeight = login_post.getMeasuredHeight();
+                    float mWidth = login_post.getMeasuredWidth();
+                    float mHeight = login_post.getMeasuredHeight();
                     LoginAnimator animator = new LoginAnimator(progress);
                     animator.inputAnimator(login_post, mWidth, mHeight);
 

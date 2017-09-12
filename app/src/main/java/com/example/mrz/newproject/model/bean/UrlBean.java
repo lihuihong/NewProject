@@ -21,6 +21,15 @@ public class UrlBean {
     //教务系统的首页地址后缀
     public static String mainUrl = "xs_main.aspx";
 
+    //全校选课
+    public static String schoolCode = "N121106";
+    public static String selectAllSchoolUrl= "xf_xsqxxxk.aspx";
+
+
+    //学院选课
+    public static String academyCode = "N121110";
+    public static String selectElectiveUrl= "xf_xsyxxxk.aspx";
+
     public static void setSessionId(String sessionId) {
         UrlBean.sessionId = sessionId;
     }

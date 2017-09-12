@@ -88,6 +88,8 @@ public class LoginDao {
             //访问登录成功后的首页，成功者返回1,抛出异常返回-1
             getMain(main_url);
 
+            User.setXh(userName);
+
             return 1;
 
         } catch (Exception e) {
@@ -110,7 +112,6 @@ public class LoginDao {
         //获取学生姓名
         String xhxm = doc.getElementById("xhxm").text();
         xhxm = xhxm.substring(0,xhxm.length()-2);
-        Log.d("LoginDao",xhxm);
         User.setXm(xhxm);
     }
 

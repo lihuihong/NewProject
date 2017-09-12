@@ -24,6 +24,12 @@ import static com.ashokvarma.bottomnavigation.BottomNavigationBar.BACKGROUND_STY
 import static com.ashokvarma.bottomnavigation.BottomNavigationBar.BACKGROUND_STYLE_STATIC;
 import static com.ashokvarma.bottomnavigation.BottomNavigationBar.MODE_FIXED;
 
+
+/**
+ *
+ * 主界面
+ */
+
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener, ViewPager.OnPageChangeListener {
 
     @BindView(R.id.vp_home)
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         intiView();
+
     }
 
     private void intiView() {
@@ -121,4 +128,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     public void onPageScrollStateChanged(int state) {
 
     }
+
 }
