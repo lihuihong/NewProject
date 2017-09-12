@@ -1,5 +1,8 @@
 package com.example.mrz.newproject.model.bean;
 
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * Created by Mr.z on 2017/9/12.
  */
@@ -20,6 +23,24 @@ public class UrlBean {
 
     public static void setSessionId(String sessionId) {
         UrlBean.sessionId = sessionId;
+    }
+
+    /**
+     * 将键值对形式的键值对数据转换为链接形式
+     *
+     * @param postDatas 需要提交的表单数据
+     * @return
+     */
+    public static String utf2Gbk(Map<String,String> postDatas){
+        String parma = "";
+
+        for (Iterator<Map.Entry<String,String>> it = postDatas.entrySet().iterator(); it.hasNext();){
+            Map.Entry entry = it.next();
+            parma += entry.getKey() + "=" + entry.getValue();
+            if(it.hasNext())
+                parma += "&";
+        }
+        return parma;
     }
 
 }

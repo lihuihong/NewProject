@@ -5,10 +5,14 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.model.dao.LoginDao;
+import com.example.mrz.newproject.uitls.DBUtils;
 import com.example.mrz.newproject.uitls.DensityUtils;
 import com.example.mrz.newproject.view.LoginAnimator;
 
@@ -71,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //添加点击事件
         initEvent();
 
+
         //初始化handler
         mHandler = new Handler(){
             @Override
@@ -98,7 +104,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //登录成功处理
     private void loginSuccedHandler(){
         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-        startActivity(intent);
+        Log.d("message",Build.VERSION.SDK_INT+"");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, ll_login_post, "sharedView").toBundle());
+        }else{
+            startActivity(intent);
+        }
+        //startActivity(intent);
     }
 
 

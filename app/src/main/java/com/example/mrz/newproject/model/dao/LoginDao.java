@@ -68,16 +68,10 @@ public class LoginDao {
         postDatas.put("TextBox1",userName);
         postDatas.put("TextBox2",passwd);
 
-        //将post请求体使用字符串拼接手动转换成gbk编码
-        String parma = "";
+        //将map键值对形式的表单数据转换为链接形式
+        String parma = UrlBean.utf2Gbk(postDatas);
 
-        for (Iterator<Map.Entry<String,String>> it = postDatas.entrySet().iterator(); it.hasNext();){
-            Map.Entry entry = it.next();
-            parma += entry.getKey() + "=" + entry.getValue();
-            if(it.hasNext())
-                parma += "&";
-        }
-
+        //以gbk方式提交表单数据
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=gb2312"), parma);
         //请求时添加头文件伪造浏览器
         Request req = new Request.Builder().url(login_url).removeHeader("User-Agent")
