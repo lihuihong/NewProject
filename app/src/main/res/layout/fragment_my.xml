@@ -9,6 +9,7 @@
               tools:context="com.example.mrz.newproject.controller.activity.MainActivity">
 
    <TextView
+       android:id="@+id/my_name"
        android:gravity="center"
        android:text="我"
        android:textSize="30dp"
