@@ -6,8 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
+import com.example.mrz.newproject.model.bean.User;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by 那个谁 on 2017/9/10.
@@ -16,10 +20,16 @@ import com.example.mrz.newproject.R;
  */
 
 public class MyFragment extends Fragment {
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_my,null);
+        View view = inflater.inflate(R.layout.fragment_my,null);
+
+        TextView tv_name = (TextView) view.findViewById(R.id.my_name);
+        tv_name.setText(User.xm);
         return view;
     }
 }

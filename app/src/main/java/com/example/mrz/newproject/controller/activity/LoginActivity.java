@@ -7,6 +7,8 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +28,9 @@ import android.widget.Toast;
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.model.dao.LoginDao;
 import com.example.mrz.newproject.uitls.DensityUtils;
+import com.example.mrz.newproject.view.LoginAnimator;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +55,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private float mWidth, mHeight;
 
+    private Handler mHandler;
+
+    public final int LOGIN_SUCCED = 0x11111;
+    public final int LOGIN_FAILED = 0X11112;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,20 +70,88 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //添加点击事件
         initEvent();
+
+        //初始化handler
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case LOGIN_SUCCED:
+                        loginSuccedHandler();
+                        finish();
+                        break;
+                    case LOGIN_FAILED:
+                        loginFailedHandler();
+                        break;
+                }
+            }
+        };
     }
 
+    //初始化事件
     private void initEvent() {
         login_post.setOnClickListener(this);
         login_help.setOnClickListener(this);
     }
 
+
+    //登录成功处理
+    private void loginSuccedHandler(){
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(intent);
+    }
+
+
+    //登录失败处理
+    private void loginFailedHandler(){
+        new AlertDialog.Builder(this)
+                .setTitle("登录失败")
+                .setMessage("学号或者密码错误，请检查！")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        //获取登录按钮的外层linearlayout
+                        View childAt = ll_login_post.getChildAt(0);
+                        //删除登录按钮
+                        ll_login_post.removeView(childAt);
+
+                        //新建登录按钮，再设置样式
+                        login_post = new Button(LoginActivity.this);
+                        login_post.setText("登录");
+                        login_post.setText("立即登录");
+                        login_post.setTextSize(22);
+                        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParam.setMargins(0, DensityUtils.dip2px(LoginActivity.this,20), 0, 0);
+                        login_post.setLayoutParams(layoutParam);
+                        login_post.setBackgroundResource(R.drawable.login_botton_bg);
+                        login_post.setTextColor(getResources().getColor(R.color.white));
+                        login_post.setId(R.id.login_post);
+                        login_post.setOnClickListener(LoginActivity.this);
+
+                        //添加登录按钮
+                        ll_login_post.addView(login_post);
+
+                        //隐藏加载条
+                        progress.setVisibility(View.GONE);
+
+                        //并将密码输入框清空
+                        //login_userName.setText(null);
+                        login_passWord.setText(null);
+                    }
+                })
+                .show();
+    }
+
     @Override
     public void onClick(final View view) {
         switch (view.getId()){
+
+            //点击的是登录按钮
             case R.id.login_post:
 
-                String userName = login_userName.getText().toString();
-                String password = login_passWord.getText().toString();
+                final String userName = login_userName.getText().toString();
+                final String password = login_passWord.getText().toString();
 
 
                 //传入用户名和密码,检查是否合格
@@ -108,59 +186,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //启动动画
                     mWidth = login_post.getMeasuredWidth();
                     mHeight = login_post.getMeasuredHeight();
-                    inputAnimator(login_post, mWidth, mHeight);
+                    LoginAnimator animator = new LoginAnimator(progress);
+                    animator.inputAnimator(login_post, mWidth, mHeight);
 
 
-                    //获取登录状态码
-                    int loginCode = LoginDao.login(userName,password);
-
-                    //-1：登录失败
-                    if(loginCode == 1){
-
-                        new AlertDialog.Builder(this)
-                                .setTitle("登录失败")
-                                .setMessage("学号或者密码错误，请重新输入！")
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                                        View childAt = ll_login_post.getChildAt(0);
-                                        ll_login_post.removeView(childAt);
-
-                                        login_post = new Button(LoginActivity.this);
-                                        login_post.setText("登录");
-                                        login_post.setText("立即登录");
-                                        login_post.setTextSize(22);
-                                        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                                        layoutParam.setMargins(0, DensityUtils.dip2px(LoginActivity.this,20), 0, 0);
-                                        login_post.setLayoutParams(layoutParam);
-                                        login_post.setBackgroundResource(R.drawable.login_botton_bg);
-                                        login_post.setTextColor(getResources().getColor(R.color.white));
-                                        login_post.setId(R.id.login_post);
-                                        login_post.setOnClickListener(LoginActivity.this);
-                                        ll_login_post.addView(login_post);
-
-
-                                        Log.d("message", String.valueOf(ll_login_post.getVisibility()));
-
-
-
-                                        progress.setVisibility(View.GONE);
-
-                                        login_userName.setText(null);
-                                        login_passWord.setText(null);
-                                    }
-                                })
-                                .show();
-                    }else{
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        startActivity(intent);
-                    }
-
-
+                    //获取登录状态码,应需要访问网络，所以需要子线程
+                    new Thread(){
+                        @Override
+                        public void run() {
+                            int loginCode = 0;
+                            try {
+                                loginCode = LoginDao.login(userName,password);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Message msg = new Message();
+                            // 非1：登录失败 1：登录成功
+                            if(loginCode == 1){
+                                msg.what = LOGIN_SUCCED;
+                                mHandler.sendEmptyMessage(msg.what);
+                            }else{
+                                msg.what = LOGIN_FAILED;
+                                mHandler.sendEmptyMessage(msg.what);
+                            }
+                        }
+                    }.start();
                     break;
                 }
                 break;
+            //点击了登录帮助
             case R.id.login_help:
 
                 break;
@@ -169,106 +223,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    /**
-     * 输入框的动画效果
-     *
-     * @param view
-     *      控件
-     * @param w
-     *      宽
-     * @param h
-     *      高
-     */
-    private void inputAnimator(final View view, float w, float h) {
 
-        AnimatorSet set = new AnimatorSet();
-
-        ValueAnimator animator = ValueAnimator.ofFloat(0, w);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (Float) animation.getAnimatedValue();
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view
-                        .getLayoutParams();
-
-                params.leftMargin = (int) value;
-                params.rightMargin = (int) value;
-                view.setLayoutParams(params);
-            }
-        });
-
-        ObjectAnimator animator2 = ObjectAnimator.ofFloat(login_post,
-                "scaleX", 1f, 0.5f);
-        set.setDuration(1000);
-        set.setInterpolator(new AccelerateDecelerateInterpolator());
-        set.playTogether(animator, animator2);
-        set.start();
-        set.addListener(new Animator.AnimatorListener() {
-
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                /**
-                 * 动画结束后，先显示加载的动画，然后再隐藏输入框
-                 */
-                progress.setVisibility(View.VISIBLE);
-                progressAnimator(progress);
-                login_post.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-        });
-
-    }
-
-    /**
-     * 出现进度动画
-     *
-     * @param view
-     */
-    private void progressAnimator(final View view) {
-        PropertyValuesHolder animator = PropertyValuesHolder.ofFloat("scaleX",
-                0.5f, 1f);
-        PropertyValuesHolder animator2 = PropertyValuesHolder.ofFloat("scaleY",
-                0.5f, 1f);
-        ObjectAnimator animator3 = ObjectAnimator.ofPropertyValuesHolder(view,
-                animator, animator2);
-        animator3.setDuration(1000);
-        animator3.setInterpolator(new JellyInterpolator());
-        animator3.start();
-
-    }
-
-
-    /**
-     * 自定义插值器
-     */
-    class JellyInterpolator extends LinearInterpolator {
-        private float factor;
-
-        public JellyInterpolator() {
-            this.factor = 0.15f;
-        }
-
-        @Override
-        public float getInterpolation(float input) {
-            return (float) (Math.pow(2, -10 * input)
-                    * Math.sin((input - factor / 4) * (2 * Math.PI) / factor) + 1);
-        }
-    }
 
 }
