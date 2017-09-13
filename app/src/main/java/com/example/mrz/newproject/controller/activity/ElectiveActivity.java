@@ -58,11 +58,11 @@ public class ElectiveActivity extends AppCompatActivity {
 
         //院校性选课地址
         String academyUrl = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.selectElectiveUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.academyCode;
-        fragments.add(new ElectiveFragment(ElectiveActivity.this,academyUrl));
+        fragments.add(ElectiveFragment newInstance(academyUrl));
 
         //全校性选课地址
         String schoolUrl = UrlBean.IP + "/" + UrlBean.sessionId + "/"  + UrlBean.selectAllSchoolUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.schoolCode;
-        fragments.add(new ElectiveFragment(ElectiveActivity.this,schoolUrl));
+        fragments.add(ElectiveFragment newInstance(schoolUrl));
 
 
         //设置数据适配器
