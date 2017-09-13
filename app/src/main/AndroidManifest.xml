@@ -14,7 +14,7 @@
         <activity android:name=".controller.activity.MainActivity">
         </activity>
         <activity
-            android:name=".controller.activity.LoginActivity"
+            android:name="com.example.mrz.newproject.controller.activity.LoginActivity"
             android:theme="@style/ImageTranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
