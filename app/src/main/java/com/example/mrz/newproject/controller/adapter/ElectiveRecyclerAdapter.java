@@ -1,16 +1,22 @@
 package com.example.mrz.newproject.controller.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
+import com.example.mrz.newproject.controller.activity.LoginActivity;
 import com.example.mrz.newproject.model.bean.Class;
+import com.example.mrz.newproject.uitls.DensityUtils;
 
 import java.util.List;
 
@@ -48,17 +54,40 @@ public class ElectiveRecyclerAdapter extends RecyclerView.Adapter<ElectiveRecycl
         holder.class_total.setText("总量: "+classes.get(position).getClassTotal());
         holder.class_selected.setText("已选: "+classes.get(position).getClassSelected());
         holder.class_margin.setText("余量: "+classes.get(position).getClassMargin());
+
+        //条目添加点击事件
+        holder.cv_class.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //弹出确认选择框
+                new AlertDialog.Builder(context)
+                        .setTitle("确认选择"+classes.get(position).getClassName()+"?")
+                        .setMessage("学号或者密码错误，请检查！")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                //确认选课弹出选课成功的框
+                                if(holder.rl_selected.getVisibility() == View.VISIBLE)
+                                {
+                                    holder.rl_selected.setVisibility(View.GONE);
+                                }else{
+                                    holder.rl_selected.setVisibility(View.VISIBLE);
+                                }
+                                classes.get(position).setFlag(!classes.get(position).isFlag());
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+        });
+
         holder.cv_class.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
 
-                if(holder.rl_selected.getVisibility() == View.VISIBLE)
-                {
-                    holder.rl_selected.setVisibility(View.GONE);
-                }else{
-                    holder.rl_selected.setVisibility(View.VISIBLE);
-                }
-                classes.get(position).setFlag(!classes.get(position).isFlag());
+
                 return true;
             }
         });

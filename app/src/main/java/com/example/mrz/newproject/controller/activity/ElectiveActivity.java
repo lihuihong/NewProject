@@ -3,9 +3,13 @@ package com.example.mrz.newproject.controller.activity;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.controller.adapter.FragmentPagerAdapter;
@@ -33,10 +37,18 @@ public class ElectiveActivity extends AppCompatActivity {
     @BindView(R.id.elective_vp_class)
     ViewPager vp_class;
 
-    private String[] titles = {"院系选修课","全校性选修课"};
+    //筛选按钮
+    @BindView(R.id.elective_screen)
+    LinearLayout elective_screen;
+
+    private String[] titles = {"院系选修课","全校选修课"};
 
     //Fragment集合
     private List<Fragment> fragments;
+
+    //主界面
+    @BindView(R.id.drawerLayout)
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +58,18 @@ public class ElectiveActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initData();
+
+        initEnevt();
+    }
+
+    private void initEnevt() {
+
+        elective_screen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(Gravity.END);
+            }
+        });
     }
 
     private void initData() {
