@@ -41,9 +41,6 @@ public class ElectiveFragment extends Fragment {
 
     private final int GET_SELECT_SUCCESED = 0X11111;
     private final int GET_SELECT_FAILED = 0X11110;
-
-    private Context context;  
-    private String url;  
   
     //Fragment新要求这样些
     public static ElectiveFragment newInstance(String url) {  
