@@ -37,7 +37,7 @@
         </activity>
         <activity android:name=".controller.activity.TuitionActivity">
         </activity>
-        <activity android:name=".controller.activity.HanderActivity">
+        <activity android:name=".controller.activity.UserInfoActivity">
         </activity>
         <activity android:name=".controller.activity.OpinionActivity">
         </activity>

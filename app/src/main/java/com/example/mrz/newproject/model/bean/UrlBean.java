@@ -30,6 +30,10 @@ public class UrlBean {
     public static String academyCode = "N121110";
     public static String selectElectiveUrl= "xf_xsyxxxk.aspx";
 
+    //用户信息
+    public static String userInfoCode = "N121501";
+    public static String userInfoUrl = "xsgrxx.aspx";
+
     public static void setSessionId(String sessionId) {
         UrlBean.sessionId = sessionId;
     }
