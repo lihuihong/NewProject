@@ -30,6 +30,16 @@ public class UrlBean {
     public static String academyCode = "N121110";
     public static String selectElectiveUrl= "xf_xsyxxxk.aspx";
 
+    //学费收费系统ip
+    public final static String TIP = "http://pfs.cqcet.edu.cn/";
+    //发起学费收费系统登录请求的地址后缀
+    public static String TloginUrl = "framecontainer.aspx";
+
+    //登陆请求地址
+    public static String TloginUrlafter = "login.aspx";
+
+
+
     public static void setSessionId(String sessionId) {
         UrlBean.sessionId = sessionId;
     }

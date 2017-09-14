@@ -1,12 +1,7 @@
 package com.example.mrz.newproject.model.dao;
 
-import android.app.DownloadManager;
-import android.content.Context;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.example.mrz.newproject.controller.activity.LoginActivity;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
 import com.example.mrz.newproject.uitls.OkHttpUitl;
@@ -16,15 +11,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -75,7 +65,7 @@ public class LoginDao {
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=gb2312"), parma);
         //请求时添加头文件伪造浏览器
         Request req = new Request.Builder().url(login_url).removeHeader("User-Agent")
-                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:55.0) Gecko/20100101 Firefox/55.0")
                 .post(requestBody).build();
 
         try {
@@ -149,6 +139,8 @@ public class LoginDao {
 
         Response rsp = OkHttpUitl.getInstance().newCall(request).execute();
         String body = rsp.body().string();
+
+
         //使用jsoup解析
         Document doc = Jsoup.parse(body);
 
@@ -159,7 +151,6 @@ public class LoginDao {
         String href = a.attr("href");
         //获取链接中的sessionId
         String session = href.split("/")[1];
-
         UrlBean.setSessionId(session);
     }
 
