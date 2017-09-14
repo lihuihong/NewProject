@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.controller.activity.DocumentActivity;
-import com.example.mrz.newproject.controller.activity.HanderActivity;
+import com.example.mrz.newproject.controller.activity.UserInfoActivity;
 import com.example.mrz.newproject.controller.activity.OpinionActivity;
 import com.example.mrz.newproject.controller.activity.QqActivity;
 import com.example.mrz.newproject.controller.activity.SettingActivity;
@@ -79,7 +79,7 @@ public class MyFragment extends Fragment {
         switch (ll.getId()){
             //头部详情
             case R.id.ll_avatar:
-                mIntent = new Intent(getActivity(), HanderActivity.class);
+                mIntent = new Intent(getActivity(), UserInfoActivity.class);
                 startActivity(mIntent);
                 break;
             //意见提交

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#8ddedede"
+    tools:context="com.example.mrz.newproject.controller.activity.ElectiveActivity">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="20dp"
+                android:paddingBottom="10dp"
+                android:text="基本信息"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:background="@color/white"
+                android:id="@+id/userinfo_basic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+            <TextView
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingLeft="20dp"
+                android:paddingBottom="10dp"
+                android:text="学校信息"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/userinfo_school"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+
+
+
+
+</LinearLayout>
