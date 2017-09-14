@@ -34,6 +34,14 @@ public class UrlBean {
     public static String userInfoCode = "N121501";
     public static String userInfoUrl = "xsgrxx.aspx";
 
+    //缴费记录ip
+    public static String TuitionloginBaseUrl = "http://pfs.cqcet.edu.cn/";
+    //缴费登陆成功页面
+    public static String TuitionloginloginUrl = "framecontainer.aspx";
+
+
+
+
     public static void setSessionId(String sessionId) {
         UrlBean.sessionId = sessionId;
     }

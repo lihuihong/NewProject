@@ -33,24 +33,22 @@ public class TuitionLoginDao {
     public static int Tlogin(String userName, String passwd) throws IOException {
 
         //获取登陆前地址
-        String Tlogin_url1 = UrlBean.TIP ;
+        String TuitionloginBaseUrl = UrlBean.TuitionloginBaseUrl ;
         //获取登陆后地址
-        String Tlogin_url2 = UrlBean.TIP + UrlBean.TloginUrlafter;
+        String Tlogin_url2 = UrlBean.TuitionloginBaseUrl + UrlBean.TuitionloginloginUrl;
 
 
         //获取表单数据
         Request request = new Request.Builder()
-                .url(Tlogin_url1)
+                .url(TuitionloginBaseUrl)
                 .get()
                 .build();
         Response rsp = OkHttpUitl.getInstance().newCall(request).execute();
         Document doc = Jsoup.parse(rsp.body().string());
         Element __VIEWSTATE = doc.getElementById("__VIEWSTATE");
         String value = __VIEWSTATE.attr("value");
-        Element __EVENTTARGET = doc.getElementById("__EVENTTARGET");
-        String value1 = __EVENTTARGET.attr("value");
-        /*Element ImageButton1 = doc.getElementById("ImageButton1");
-        String value2 = ImageButton1.attr("value");*/
+        /*Element __EVENTTARGET = doc.getElementById("__EVENTTARGET");
+        String value1 = __EVENTTARGET.attr("value");*/
 
 
 //        builder.add("__VIEWSTATE", URLEncoder.encode(value,"GBK"));
@@ -59,7 +57,7 @@ public class TuitionLoginDao {
 
         postDatas = new HashMap<String, String>();
         postDatas.put("__VIEWSTATE", URLEncoder.encode(value,"GBK"));
-        postDatas.put("__EVENTTARGET",URLEncoder.encode(value1,"GBK"));
+        //postDatas.put("__EVENTTARGET",URLEncoder.encode(value1,"GBK"));
         postDatas.put("txt_yhm",URLEncoder.encode(userName,"GBK"));
         //postDatas.put("ImageButton1", URLEncoder.encode("学生","GBK"));
         postDatas.put("txt_pwd", URLEncoder.encode(userName,"GBK"));
@@ -92,7 +90,7 @@ public class TuitionLoginDao {
             Response rsp = OkHttpUitl.getInstance().newCall(req).execute();
 
             //拼接首页地址
-            String main_url = UrlBean.TIP + UrlBean.TloginUrl;
+            String main_url = UrlBean.TuitionloginBaseUrl + UrlBean.TuitionloginloginUrl;
 
             //访问登录成功后的首页，成功者返回1,抛出异常返回-1
             getTMain(main_url);
