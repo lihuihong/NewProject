@@ -65,8 +65,8 @@ public class ElectiveRecyclerAdapter extends RecyclerView.Adapter<ElectiveRecycl
 
                 //弹出确认选择框
                 new AlertDialog.Builder(context)
-                        .setTitle("确认选择"+classes.get(position).getClassName()+"?")
-                        .setMessage("学号或者密码错误，请检查！")
+                        .setTitle("确认")
+                        .setMessage("确认选择"+classes.get(position).getClassName()+"?")
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

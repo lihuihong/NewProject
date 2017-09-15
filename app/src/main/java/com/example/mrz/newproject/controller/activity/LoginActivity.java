@@ -207,8 +207,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     break;
                 default:
 
-                    login_userName.setFocusable(false);
-                    login_passWord.setFocusable(false);
                     // 隐藏输入框
                     //login_post.setVisibility(View.INVISIBLE);
                     login_post.setText("");
