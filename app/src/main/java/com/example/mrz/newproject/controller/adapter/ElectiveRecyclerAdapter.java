@@ -48,7 +48,10 @@ public class ElectiveRecyclerAdapter extends RecyclerView.Adapter<ElectiveRecycl
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.class_name.setText(classes.get(position).getClassName());
         holder.class_teacher.setText(classes.get(position).getClassTeacter());
-        holder.class_time.setText(classes.get(position).getClassTime());
+        String classTime = classes.get(position).getClassTime();
+        if(classTime.length() > 25)
+            classTime = classTime.substring(0, classTime.indexOf("{")) + classTime.substring(classTime.indexOf("}")+1);
+        holder.class_time.setText(classTime);
         holder.class_place.setText("上课地点："+classes.get(position).getClassPlace());
         holder.class_scroe.setText(classes.get(position).getClassScore());
         holder.class_total.setText("总量: "+classes.get(position).getClassTotal());

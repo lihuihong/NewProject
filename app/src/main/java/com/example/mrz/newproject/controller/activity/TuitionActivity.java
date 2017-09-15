@@ -26,16 +26,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-//学费收费情况查询
-public class TuitionActivity extends AppCompatActivity implements OnChartValueSelectedListener {
+    //学费收费情况查询
+    public class TuitionActivity extends AppCompatActivity implements OnChartValueSelectedListener {
 
-    public final int LOGIN_TSUCCED = 0x11111;
-    public final int LOGIN_TFAILED = 0X11112;
-    @BindView(R.id.pie_chart)
-    PieChart mPieChart;
+        public final int LOGIN_TSUCCED = 0x11111;
+        public final int LOGIN_TFAILED = 0X11112;
+        @BindView(R.id.pie_chart)
+        PieChart mPieChart;
 
-    private String mYhm;
-    private String mMima;
+        private String mYhm;
+        private String mMima;
 
     private Handler mHandler;
     private int LOGIN_FAILED;

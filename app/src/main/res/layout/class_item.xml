@@ -5,155 +5,10 @@
     android:id="@+id/card_view"
     android:layout_margin="20dp"
     app:cardCornerRadius="10dp"
-    app:cardElevation="20dp"
+    app:cardElevation="30dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    
-        <LinearLayout
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-    
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-    
-                <LinearLayout
-                    android:paddingBottom="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:maxWidth="200dp"
-                        android:maxLines="1"
-                        android:ellipsize="middle"
-                        android:id="@+id/class_name"
-                        android:textSize="20sp"
-                        android:text="软件工程"
-                        android:textColor="#00b38a"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-    
-                    <TextView
-                        android:id="@+id/class_teacher"
-                        android:textSize="16sp"
-                        android:paddingLeft="5dp"
-                        android:text="付雯"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-    
-                </LinearLayout>
-    
-                <LinearLayout
-                    android:paddingBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-    
-                    <TextView
-                        android:id="@+id/class_time"
-                        android:textSize="12sp"
-                        android:text="周二第9,10节{第2-13周};周三第7,8节{第2-13周}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-    
-                </LinearLayout>
-    
-                <LinearLayout
-    
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-    
-                    <TextView
-                        android:id="@+id/class_place"
-                        android:textSize="12sp"
-                        android:text="上课地点：4405;4304"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-    
-            </LinearLayout>
-    
-            <LinearLayout
-                android:gravity="right"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/class_scroe"
-                    android:textColor="#61ff0004"
-                    android:textSize="40sp"
-                    android:gravity="center"
-                    android:text="3.0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-    
-    
-        </LinearLayout>
-    
-        <LinearLayout
-            android:gravity="center_vertical"
-            android:background="#77d9d9d9"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/class_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/textview_border"
-                android:padding="4dp"
-                android:text="总量: 70"
-                android:textSize="10sp"/>
-
-            <TextView
-                android:id="@+id/class_selected"
-                android:layout_marginLeft="10dp"
-                android:textSize="10sp"
-                android:background="@drawable/textview_border"
-                android:padding="4dp"
-                android:text="已选: 70"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-    
-            <TextView
-                android:id="@+id/class_margin"
-                android:layout_marginLeft="10dp"
-                android:textSize="10sp"
-                android:background="@drawable/textview_border"
-                android:padding="4dp"
-                android:text="余量: 0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-    
-            <LinearLayout
-                android:gravity="right"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-    
-                <CheckBox
-                    android:textColor="#898989"
-                    android:text="预定教材"
-                    android:checked="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/class_reserve" />
-            </LinearLayout>
-    
-        </LinearLayout>
-    
-    
-    </LinearLayout>
-    
     <RelativeLayout
         android:id="@+id/rl_selected"
         android:visibility="gone"
@@ -170,6 +25,153 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/class_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="middle"
+                        android:maxLines="1"
+                        android:maxWidth="200dp"
+                        android:text="软件工程"
+                        android:textColor="#00b38a"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/class_teacher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:text="付雯"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/class_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="周二第9,10节;周三第7,8节{第2-13周}"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/class_place"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="上课地点：4405;4304"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/class_scroe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="3.0"
+                    android:textColor="#61ff0004"
+                    android:textSize="40sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#77d9d9d9"
+            android:gravity="center_vertical"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp">
+
+            <TextView
+                android:id="@+id/class_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview_border"
+                android:padding="4dp"
+                android:text="总量: 70"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/class_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/textview_border"
+                android:padding="4dp"
+                android:text="已选: 70"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/class_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/textview_border"
+                android:padding="4dp"
+                android:text="余量: 0"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <CheckBox
+                    android:id="@+id/class_reserve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="预定教材"
+                    android:textColor="#898989" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </android.support.v7.widget.CardView>
