@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.controller.adapter.UserInfoRecyclerAdapter;
@@ -41,6 +42,9 @@ public class UserInfoActivity extends AppCompatActivity {
     //用户学校信息
     @BindView(R.id.userinfo_school)
     RecyclerView userinfo_school;
+
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
 
     private Handler mHandler;
 
@@ -90,6 +94,9 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     private void initData() {
+
+        //设置标题
+        toolbar_title.setText("个人资料");
 
         new Thread(){
             @Override

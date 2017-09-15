@@ -1,49 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/main"
-                android:background="@color/colorPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:context="com.example.mrz.newproject.controller.activity.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbar"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    app:layout_scrollFlags="scroll|enterAlways">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:contentInsetStart="0dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <TextView
-            android:id="@+id/tv_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:textColor="#fff"
-            android:textSize="22sp"
-            android:layout_gravity="center_vertical"
-            android:visibility="visible"
-            tools:text="功能"/>
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff"
-            android:textSize="18sp"
-            android:visibility="invisible"
-            tools:text="个人"/>
+        android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/iv_refresh"
+            android:id="@+id/toolbar_iv"
+            android:src="@drawable/go_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="8dp"
-            android:layout_gravity="right"
-            android:src="@mipmap/ic_refresh_white"/>
-    </android.support.v7.widget.Toolbar>
-</RelativeLayout>
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:gravity="center"
+            android:text="网上选课"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/toolbar_more"
+            android:src="@drawable/toolbar_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</android.support.v7.widget.Toolbar>

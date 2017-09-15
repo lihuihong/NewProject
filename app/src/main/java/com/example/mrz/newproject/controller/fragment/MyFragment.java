@@ -60,18 +60,31 @@ public class MyFragment extends Fragment {
 
     private Intent mIntent;
 
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null){
             view = inflater.inflate(R.layout.fragment_my,null);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-            setHasOptionsMenu(true);
+            //((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+            //setHasOptionsMenu(true);
             ButterKnife.bind(this,view);
         }
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
         mMy_name.setText(User.xm);
         mMy_xh.setText(User.xh);
-        return view;
+
+        toolbar_title.setText("个人");
+
+        super.onActivityCreated(savedInstanceState);
     }
 
     @OnClick({R.id.ll_avatar,R.id.ll_opinion,R.id.ll_qq,R.id.ll_document,R.id.ll_setting})
