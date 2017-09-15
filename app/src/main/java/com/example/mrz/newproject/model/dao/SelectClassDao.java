@@ -1,8 +1,5 @@
 package com.example.mrz.newproject.model.dao;
 
-import android.os.Message;
-import android.util.Log;
-
 import com.example.mrz.newproject.model.bean.Class;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;

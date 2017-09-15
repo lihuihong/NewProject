@@ -53,11 +53,11 @@
             android:textSize="15sp"
             android:textColor="#cadee7"
             android:textColorHint="#cadee7"
-
             android:inputType="textPassword"
             android:background="@drawable/login_input_et_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
 
         <LinearLayout
             android:visibility="gone"

@@ -6,10 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.example.mrz.newproject.R;
-import com.example.mrz.newproject.model.dao.TuitionLoginDao;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -22,7 +20,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -52,21 +49,6 @@ public class TuitionActivity extends AppCompatActivity implements OnChartValueSe
         intiView();
         //初始化数据
         intiDate();
-
-        //获取登录状态码,应需要访问网络，所以需要子线程
-        new  Thread(){
-            @Override
-            public void run() {
-                int loginCode = 0;
-                try {
-                    loginCode = TuitionLoginDao.Tlogin(mYhm, mMima);
-                    Log.i("5555", "run: 返回码" + loginCode);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-
 
     }
 

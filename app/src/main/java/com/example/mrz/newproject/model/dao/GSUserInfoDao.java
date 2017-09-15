@@ -1,8 +1,5 @@
 package com.example.mrz.newproject.model.dao;
 
-import android.util.Log;
-
-import com.example.mrz.newproject.model.bean.Class;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
 import com.example.mrz.newproject.model.bean.UserInfoKVP;
@@ -14,10 +11,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Request;
 import okhttp3.Response;

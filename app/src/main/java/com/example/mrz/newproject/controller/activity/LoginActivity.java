@@ -1,39 +1,24 @@
 package com.example.mrz.newproject.controller.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
-import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.model.dao.LoginDao;
-import com.example.mrz.newproject.uitls.DBUtils;
 import com.example.mrz.newproject.uitls.DensityUtils;
 import com.example.mrz.newproject.view.LoginAnimator;
 
@@ -68,9 +53,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private Handler mHandler;
 
-    public final int LOGIN_SUCCED = 0x11111;
-    public final int LOGIN_FAILED = 0X11112;
+    //弹出对话框的验证码图片
+    private ImageView login_dialog_iv;
 
+    public final int LOGIN_FAILED = 0X11112;
+    public final int LOGIN_SUCCED = 0x11111;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,15 +77,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 switch (msg.what){
                     case LOGIN_SUCCED:
                         loginSuccedHandler();
-                        finish();
                         break;
                     case LOGIN_FAILED:
-                        loginFailedHandler();
+                        loginFailedHandler((String) msg.obj);
                         break;
                 }
             }
         };
     }
+
 
     //初始化事件
     private void initEvent() {
@@ -106,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login_help.setOnClickListener(this);
 
         //获取本地储存，如果学号和密码存在就读取
-        SharedPreferences pref =getSharedPreferences("userInfoData", MODE_PRIVATE);
+        SharedPreferences pref = getSharedPreferences("userInfoData", MODE_PRIVATE);
         login_userName.setText(pref.getString("userName",""));
         login_passWord.setText(pref.getString("passWord",""));
     }
@@ -120,6 +107,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.putString("userName", login_userName.getText().toString());
         editor.putString("passWord", login_passWord.getText().toString());
         editor.apply();
+
+
 
         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
 //        Log.d("message",Build.VERSION.SDK_INT+"");
@@ -135,15 +124,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
 
+        finish();
+
     }
 
 
 
     //登录失败处理
-    private void loginFailedHandler(){
+    private void loginFailedHandler(String msg){
+
         new AlertDialog.Builder(this)
                 .setTitle("登录失败")
-                .setMessage("学号或者密码错误，请检查！")
+                .setMessage(msg)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -233,9 +225,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     new Thread(){
                         @Override
                         public void run() {
+
+
                             int loginCode = 0;
                             try {
                                 loginCode = LoginDao.login(userName,password);
+
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -243,10 +238,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // 非1：登录失败 1：登录成功
                             if(loginCode == 1){
                                 msg.what = LOGIN_SUCCED;
-                                mHandler.sendEmptyMessage(msg.what);
+                                mHandler.sendMessage(msg);
                             }else{
                                 msg.what = LOGIN_FAILED;
-                                mHandler.sendEmptyMessage(msg.what);
+                                msg.obj = "学号或者密码错误，请检查！";
+                                mHandler.sendMessage(msg);
                             }
                         }
                     }.start();
@@ -256,12 +252,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //点击了登录帮助
             case R.id.login_help:
 
+
                 break;
 
         }
     }
-
-
-
 
 }
