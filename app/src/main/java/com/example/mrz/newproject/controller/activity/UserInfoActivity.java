@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
@@ -46,6 +49,14 @@ public class UserInfoActivity extends AppCompatActivity {
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
 
+    //加载动画
+    @BindView(R.id.progress_view)
+    RelativeLayout progress_view;
+
+    //内容
+    @BindView(R.id.userinfo_sl)
+    ScrollView userinfo_sl;
+
     private Handler mHandler;
 
     @Override
@@ -55,12 +66,20 @@ public class UserInfoActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+
+
         mHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
 
                 switch (msg.what){
                     case GET_USERINFO_SUCCED:
+
+                        //隐藏加载动画
+                        progress_view.setVisibility(View.GONE);
+
+                        //显示内容
+                        userinfo_sl.setVisibility(View.VISIBLE);
 
                         userinfo_basic.addItemDecoration(new DividerItemDecoration(UserInfoActivity.this,DividerItemDecoration.VERTICAL_LIST));
 

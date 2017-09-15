@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
@@ -66,6 +67,10 @@ public class ElectiveFragment extends Fragment {
 
     private ElectiveRecyclerAdapter adapter;
 
+    //加载动画
+    @BindView(R.id.progress_view)
+    RelativeLayout progress_view;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,7 +83,6 @@ public class ElectiveFragment extends Fragment {
                 this.url = args.getString("url");  
             }  
         }
-
 
         //get_classes();
         return view;
@@ -96,8 +100,18 @@ public class ElectiveFragment extends Fragment {
                         //获取成功就设置数据适配器
                         adapter = new ElectiveRecyclerAdapter(context,classes);
                         rv_classes.setAdapter(adapter);
+
+                        //隐藏加载动画
+                        progress_view.setVisibility(View.GONE);
+
+                        //并显示数据
+                        rv_classes.setVisibility(View.VISIBLE);
+
                         break;
                     default:
+                        //隐藏加载动画
+                        progress_view.setVisibility(View.GONE);
+
                         //为空就显示没有课text
                         rv_classes.setVisibility(View.GONE);
                         class_text.setVisibility(View.VISIBLE);

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.controller.adapter.FragmentPagerAdapter;
@@ -42,6 +43,7 @@ public class ElectiveActivity extends AppCompatActivity {
     LinearLayout elective_screen;
 
     private String[] titles = {"院系选修课","全校选修课"};
+
 
     //Fragment集合
     private List<Fragment> fragments;

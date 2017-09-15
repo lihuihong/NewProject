@@ -10,9 +10,60 @@
     android:background="#8ddedede"
     tools:context="com.example.mrz.newproject.controller.activity.ElectiveActivity">
 
-    <include layout="@layout/layout_toolbar" />
+    <android.support.v7.widget.Toolbar
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_scrollFlags="scroll|enterAlways">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/toolbar_iv"
+                android:src="@drawable/go_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:gravity="center"
+                android:text="网上选课"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/toolbar_more"
+                android:src="@drawable/toolbar_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <RelativeLayout
+        android:id="@+id/progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            app:indicatorName="LineScaleIndicator"
+            app:indicatorColor="@color/colorAccent"/>
+    </RelativeLayout>
+
 
     <ScrollView
+        android:id="@+id/userinfo_sl"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -66,10 +117,5 @@
 
 
     </ScrollView>
-
-
-
-
-
 
 </LinearLayout>
