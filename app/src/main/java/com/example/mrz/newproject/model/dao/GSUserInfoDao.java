@@ -119,4 +119,26 @@ public class GSUserInfoDao {
         return infos;
     }
 
+    public static List<UserInfoKVP> getConnInfo(Elements trs){
+        List<UserInfoKVP> infos = new ArrayList<>();
+
+        //手机号码
+        Elements tds = trs.get(1).select("td");
+        String value = tds.get(5).text();
+        infos.add(new UserInfoKVP(tds.get(4).text().split("：")[0],value.isEmpty()? "-" : value));
+
+        //来源省
+        tds = trs.get(9).select("td");
+        infos.add(new UserInfoKVP(tds.get(0).text().split("：")[0],tds.get(1).text()));
+
+        //家庭地址
+        tds = trs.get(12).select("td");
+        value = tds.get(5).text();
+        infos.add(new UserInfoKVP(tds.get(4).text().split("：")[0],value.isEmpty()? "-" : value));
+
+
+
+        return infos;
+    }
+
 }

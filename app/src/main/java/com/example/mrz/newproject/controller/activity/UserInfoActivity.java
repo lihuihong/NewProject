@@ -38,9 +38,9 @@ public class UserInfoActivity extends AppCompatActivity {
     @BindView(R.id.userinfo_basic)
     RecyclerView userinfo_basic;
 
-    /*//用户地址信息
-    @BindView(R.id.userinfo_address)
-    RecyclerView userinfo_address;*/
+    //用户联系信息
+    @BindView(R.id.userinfo_conn)
+    RecyclerView userinfo_conn;
 
     //用户学校信息
     @BindView(R.id.userinfo_school)
@@ -81,6 +81,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         //显示内容
                         userinfo_sl.setVisibility(View.VISIBLE);
 
+                        //添加分割线
                         userinfo_basic.addItemDecoration(new DividerItemDecoration(UserInfoActivity.this,DividerItemDecoration.VERTICAL_LIST));
 
                         //将基本信息设置为垂直布局
@@ -91,6 +92,17 @@ public class UserInfoActivity extends AppCompatActivity {
                         userinfo_basic.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,basicInfos));
 
 
+                        //添加分割线
+                        userinfo_conn.addItemDecoration(new DividerItemDecoration(UserInfoActivity.this,DividerItemDecoration.VERTICAL_LIST));
+                        //将学校信息设置为垂直布局
+                        userinfo_conn.setLayoutManager(new LinearLayoutManager(UserInfoActivity.this));
+                        //解析学校信息
+                        List<UserInfoKVP> connInfo = GSUserInfoDao.getConnInfo((Elements) msg.obj);
+                        //为学校信息设置适配器
+                        userinfo_conn.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,connInfo));
+
+
+                        //添加分割线
                         userinfo_school.addItemDecoration(new DividerItemDecoration(UserInfoActivity.this,DividerItemDecoration.VERTICAL_LIST));
                         //将学校信息设置为垂直布局
                         userinfo_school.setLayoutManager(new LinearLayoutManager(UserInfoActivity.this));
@@ -99,8 +111,8 @@ public class UserInfoActivity extends AppCompatActivity {
                         //为学校信息设置适配器
                         userinfo_school.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,schoolInfo));
 
-
                         break;
+
                     case GET_USERINFO_FAILED:
 
                         break;

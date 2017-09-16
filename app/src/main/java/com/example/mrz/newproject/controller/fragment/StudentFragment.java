@@ -25,7 +25,6 @@ import com.example.mrz.newproject.controller.activity.ElectiveActivity;
 import com.example.mrz.newproject.controller.activity.EvaluationActivity;
 import com.example.mrz.newproject.controller.activity.LossActivity;
 import com.example.mrz.newproject.controller.activity.ResultsActivity;
-import com.example.mrz.newproject.controller.activity.TuitionActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,9 +56,6 @@ public class StudentFragment extends Fragment {
     //教学质量一键评价
     @BindView(R.id.tv_evaluation)
     TextView mTv_evaluation;
-    //学费收费情况查询
-    @BindView(R.id.tv_tuition)
-    TextView mTv_tuition;
     //toolbar
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -93,7 +89,7 @@ public class StudentFragment extends Fragment {
 
     //监听事件
     @OnClick({R.id.tv_balance, R.id.tv_consumption, R.id.tv_loss, R.id.tv_elective,
-            R.id.tv_results, R.id.tv_evaluation, R.id.tv_tuition})
+            R.id.tv_results, R.id.tv_evaluation})
     public void myButton(TextView btn) {
         switch (btn.getId()) {
             //余额查询
@@ -119,11 +115,6 @@ public class StudentFragment extends Fragment {
             //教学质量一键评价
             case R.id.tv_evaluation:
                 mIntent = new Intent(getActivity(), EvaluationActivity.class);
-                startActivity(mIntent);
-                break;
-            //学费收费情况查询
-            case R.id.tv_tuition:
-                mIntent = new Intent(getActivity(), TuitionActivity.class);
                 startActivity(mIntent);
                 break;
             //网上选课
