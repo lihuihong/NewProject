@@ -9,39 +9,51 @@
     android:orientation="vertical"
     android:background="#8ddedede" >
 
-    <android.support.v7.widget.Toolbar
-        android:background="@color/white"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_scrollFlags="scroll|enterAlways">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        >
+        <android.support.v7.widget.Toolbar
+            app:elevation="20dp"
+            android:id="@+id/toolbar2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white">
 
-            <ImageView
-                android:id="@+id/toolbar_iv"
-                android:src="@drawable/go_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                <ImageView
+                    android:id="@+id/toolbar_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/go_back" />
 
-            <ImageView
-                android:id="@+id/toolbar_more"
-                android:src="@drawable/toolbar_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="个人信息"
+                    android:textSize="18sp" />
 
-    </android.support.v7.widget.Toolbar>
+                <TextView
+                    android:textColor="#b3b3b3"
+                    android:id="@+id/toolbar_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="修改" />
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
 
 
     <RelativeLayout

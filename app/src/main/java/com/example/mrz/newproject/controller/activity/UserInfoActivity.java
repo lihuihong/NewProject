@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.example.mrz.newproject.model.bean.UserInfoKVP;
 import com.example.mrz.newproject.model.dao.GSUserInfoDao;
 import com.example.mrz.newproject.view.DividerItemDecoration;
 
+import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -46,8 +48,12 @@ public class UserInfoActivity extends AppCompatActivity {
     @BindView(R.id.userinfo_school)
     RecyclerView userinfo_school;
 
+
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
+
+    @BindView(R.id.toolbar_iv)
+    ImageView toolbar_iv;
 
     //加载动画
     @BindView(R.id.progress_view)
@@ -87,7 +93,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         //将基本信息设置为垂直布局
                         userinfo_basic.setLayoutManager(new LinearLayoutManager(UserInfoActivity.this));
                         //解析基本信息
-                        List<UserInfoKVP> basicInfos = GSUserInfoDao.getbasicInfo((Elements) msg.obj);
+                        List<UserInfoKVP> basicInfos = GSUserInfoDao.getbasicInfo((Document) msg.obj);
                         //为基本信息设置适配器
                         userinfo_basic.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,basicInfos));
 
@@ -97,7 +103,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         //将学校信息设置为垂直布局
                         userinfo_conn.setLayoutManager(new LinearLayoutManager(UserInfoActivity.this));
                         //解析学校信息
-                        List<UserInfoKVP> connInfo = GSUserInfoDao.getConnInfo((Elements) msg.obj);
+                        List<UserInfoKVP> connInfo = GSUserInfoDao.getConnInfo((Document) msg.obj);
                         //为学校信息设置适配器
                         userinfo_conn.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,connInfo));
 
@@ -107,7 +113,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         //将学校信息设置为垂直布局
                         userinfo_school.setLayoutManager(new LinearLayoutManager(UserInfoActivity.this));
                         //解析学校信息
-                        List<UserInfoKVP> schoolInfo = GSUserInfoDao.getSchoolInfo((Elements) msg.obj);
+                        List<UserInfoKVP> schoolInfo = GSUserInfoDao.getSchoolInfo((Document) msg.obj);
                         //为学校信息设置适配器
                         userinfo_school.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,schoolInfo));
 
@@ -126,6 +132,13 @@ public class UserInfoActivity extends AppCompatActivity {
 
     private void initData() {
 
+        toolbar_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         //设置标题
         toolbar_title.setText("个人资料");
 
@@ -140,7 +153,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 try {
 
                     //获取全部个人信息
-                    Elements allUserInfo = GSUserInfoDao.getAllUserInfo(getUserInfoUrl);
+                    Document allUserInfo = GSUserInfoDao.getAllUserInfo(getUserInfoUrl);
 
                     msg.obj = allUserInfo;
                     msg.what = GET_USERINFO_SUCCED;

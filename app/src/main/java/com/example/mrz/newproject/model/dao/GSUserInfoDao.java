@@ -1,8 +1,11 @@
 package com.example.mrz.newproject.model.dao;
 
+import android.graphics.Bitmap;
+
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
 import com.example.mrz.newproject.model.bean.UserInfoKVP;
+import com.example.mrz.newproject.uitls.ImageDownload;
 import com.example.mrz.newproject.uitls.OkHttpUitl;
 
 import org.jsoup.Jsoup;
@@ -27,7 +30,7 @@ public class GSUserInfoDao {
 
 
     //获取用户界面的所有信息
-    public static Elements getAllUserInfo(String url) throws IOException {
+    public static Document getAllUserInfo(String url) throws IOException {
 
         //拼接首页地址
         String main_url = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.mainUrl + "?xh=" + User.xh;
@@ -46,22 +49,33 @@ public class GSUserInfoDao {
         //获取网页源码
         String body = rsp.body().string();
 
-
         //使用jsoup解析
         Document doc = Jsoup.parse(body);
 
-        //获取table标签下的所有tr标签
-        Elements trs = doc.getElementsByClass("formlist").first().select("tr");
-
-        return trs;
+        return doc;
     }
+
+    public static Bitmap getUserInfoImg(Document doc) throws IOException {
+
+        //获取图片地址
+        String imgSrc = doc.getElementById("xszp").attr("src");
+        String imgUrl = UrlBean.IP + "/" + UrlBean.sessionId + "/" + imgSrc;
+
+        //返回图片
+        return ImageDownload.download(imgUrl);
+
+    }
+
 
     /**
      * //解析基本信息
      *
-     * @param trs 传入表格
+     * @param doc 传入的网页数据
      */
-    public static List<UserInfoKVP> getbasicInfo(Elements trs){
+    public static List<UserInfoKVP> getbasicInfo(Document doc){
+
+        //获取table标签下的所有tr标签
+        Elements trs = doc.getElementsByClass("formlist").first().select("tr");
 
         List<UserInfoKVP> infos = new ArrayList<>();
 
@@ -88,7 +102,10 @@ public class GSUserInfoDao {
         return infos;
     }
 
-    public static List<UserInfoKVP> getSchoolInfo(Elements trs){
+    public static List<UserInfoKVP> getSchoolInfo(Document doc){
+
+        //获取table标签下的所有tr标签
+        Elements trs = doc.getElementsByClass("formlist").first().select("tr");
 
         List<UserInfoKVP> infos = new ArrayList<>();
 
@@ -119,7 +136,11 @@ public class GSUserInfoDao {
         return infos;
     }
 
-    public static List<UserInfoKVP> getConnInfo(Elements trs){
+    public static List<UserInfoKVP> getConnInfo(Document doc){
+
+        //获取table标签下的所有tr标签
+        Elements trs = doc.getElementsByClass("formlist").first().select("tr");
+
         List<UserInfoKVP> infos = new ArrayList<>();
 
         //手机号码

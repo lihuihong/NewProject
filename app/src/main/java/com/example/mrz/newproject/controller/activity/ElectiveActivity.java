@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -44,6 +45,8 @@ public class ElectiveActivity extends AppCompatActivity {
 
     private String[] titles = {"院系选修课","全校选修课"};
 
+    @BindView(R.id.toolbar_iv)
+    ImageView toolbar_iv;
 
     //Fragment集合
     private List<Fragment> fragments;
@@ -72,12 +75,22 @@ public class ElectiveActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(Gravity.END);
             }
         });
+
+        toolbar_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initData() {
 
         //设置toolbar
         Elective_toolbar.setTitle("网上选课");
+
+        //关闭手势滑动
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         //向Fragment中添加视图
         fragments = new ArrayList<>();

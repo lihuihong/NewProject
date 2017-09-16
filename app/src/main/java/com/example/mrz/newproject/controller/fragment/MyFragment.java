@@ -1,7 +1,10 @@
 package com.example.mrz.newproject.controller.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,7 +22,13 @@ import com.example.mrz.newproject.controller.activity.UserInfoActivity;
 import com.example.mrz.newproject.controller.activity.OpinionActivity;
 import com.example.mrz.newproject.controller.activity.QqActivity;
 import com.example.mrz.newproject.controller.activity.SettingActivity;
+import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
+import com.example.mrz.newproject.model.dao.GSUserInfoDao;
+
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,10 +41,8 @@ import butterknife.OnClick;
  */
 
 public class MyFragment extends Fragment {
-    //Toobar
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    //姓名头部
+
+    //详细信息
     @BindView(R.id.ll_avatar)
     LinearLayout mLl_avatar;
     //姓名
@@ -56,12 +64,20 @@ public class MyFragment extends Fragment {
     @BindView(R.id.ll_setting)
     LinearLayout mLl_setting;
 
+    @BindView(R.id.userinfo_img)
+    ImageView userinfo_img;
+
     View view;
 
     private Intent mIntent;
 
-    @BindView(R.id.toolbar_title)
-    TextView toolbar_title;
+    private Handler mHandler;
+
+    //获取头像成功
+    private final int GET_INFO_IMG_SUCCED = 0X111111;
+
+    //获取头像失败
+    private final int GET_INFO_IMG_FAILED = 0X111110;
 
     @Nullable
     @Override
@@ -71,6 +87,19 @@ public class MyFragment extends Fragment {
             //((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
             //setHasOptionsMenu(true);
             ButterKnife.bind(this,view);
+            mHandler = new Handler(){
+                @Override
+                public void handleMessage(Message msg) {
+                    switch (msg.what){
+                        case GET_INFO_IMG_SUCCED:
+                            userinfo_img.setImageBitmap((Bitmap) msg.obj);
+                            break;
+                        case GET_INFO_IMG_FAILED:
+                            break;
+                    }
+
+                }
+            };
         }
 
         return view;
@@ -82,7 +111,32 @@ public class MyFragment extends Fragment {
         mMy_name.setText(User.xm);
         mMy_xh.setText(User.xh);
 
-        toolbar_title.setText("个人");
+        new Thread(){
+            @Override
+            public void run() {
+
+                //个人信息url地址
+                String getUserInfoUrl = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.userInfoUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.userInfoCode;
+
+                Message msg = new Message();
+
+                try {
+                    //获取全部个人信息
+                    Document allUserInfo = GSUserInfoDao.getAllUserInfo(getUserInfoUrl);
+
+                    msg.what = GET_INFO_IMG_SUCCED;
+                    //获取到的图片
+                    msg.obj = GSUserInfoDao.getUserInfoImg(allUserInfo);
+
+                    mHandler.sendMessage(msg);
+
+                } catch (IOException e) {
+                    //e.printStackTrace();
+                    msg.what = GET_INFO_IMG_FAILED;
+                    mHandler.sendMessage(msg);
+                }
+            }
+        }.start();
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -90,7 +144,7 @@ public class MyFragment extends Fragment {
     @OnClick({R.id.ll_avatar,R.id.ll_opinion,R.id.ll_qq,R.id.ll_document,R.id.ll_setting})
     public void myOnClick(LinearLayout ll){
         switch (ll.getId()){
-            //头部详情
+            //详细信息
             case R.id.ll_avatar:
                 mIntent = new Intent(getActivity(), UserInfoActivity.class);
                 startActivity(mIntent);
