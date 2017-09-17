@@ -3,9 +3,12 @@ package com.example.mrz.newproject.controller.fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +22,13 @@ import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.model.bean.CourseBean;
+import com.example.mrz.newproject.model.bean.UrlBean;
+import com.example.mrz.newproject.model.bean.User;
 import com.example.mrz.newproject.model.dao.CourseDao;
 import com.example.mrz.newproject.uitls.ColorUtils;
 import com.example.mrz.newproject.view.CornerTextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -53,11 +59,19 @@ public class IndexFragment extends Fragment {
             R.id.weekPanel_5, R.id.weekPanel_6, R.id.weekPanel_7})
     List<LinearLayout> mWeekViews=new ArrayList<>();
 
+    //高度设置
     private int itemHeight;
     private int maxSection = 12;
 
     private View view;
     private Unbinder bind;
+
+    private Handler mHandler;
+
+    List<CourseBean> courseModels[];
+
+    private final int GET_COURSE_SUCCED = 0X111111;
+    private final int GET_COURSE_FAILED = 0X111100;
 
 
     @Nullable
@@ -75,10 +89,41 @@ public class IndexFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         itemHeight = getResources().getDimensionPixelSize(R.dimen.sectionHeight);
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+
+                    //获取成功
+                    case GET_COURSE_SUCCED:
+                        initWeekCourseView();
+                        break;
+                }
+
+            }
+        };
         initWeekNameView();
         initSectionView();
-        initWeekCourseView();
         setRefreshListener();
+
+        new Thread(){
+            @Override
+            public void run() {
+
+                //拼接课表地址
+                String url = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.courseUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.courseCode;
+
+                //xskbcx.aspx?xh=2016180560&xm=赵朝权&gnmkdm=N121603
+
+                try {
+                    courseModels = CourseDao.getCourseData(url);
+                    mHandler.sendEmptyMessage(GET_COURSE_SUCCED);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    mHandler.sendEmptyMessage(GET_COURSE_FAILED);
+                }
+            }
+        }.start();
     }
 
     @Override
@@ -92,7 +137,7 @@ public class IndexFragment extends Fragment {
      */
     private void initWeekCourseView() {
         for (int i = 0; i < mWeekViews.size(); i++) {
-            initWeekPanel(mWeekViews.get(i), CourseDao.getCourseData()[i]);
+            initWeekPanel(mWeekViews.get(i), courseModels[i]);
         }
     }
 
@@ -102,9 +147,9 @@ public class IndexFragment extends Fragment {
     private void setRefreshListener() {
         mFreshLayout.setLoadMore(false);
         mFreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
-            @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                clearChildView();
+                    @Override
+                    public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                        clearChildView();
                 initWeekCourseView();
                 mFreshLayout.postDelayed(new Runnable() {
                     @Override
