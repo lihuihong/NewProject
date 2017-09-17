@@ -27,8 +27,6 @@
         </activity>
         <activity android:name=".controller.activity.ElectiveActivity">
         </activity>
-        <activity android:name=".controller.activity.BalanceActivity">
-        </activity>
         <activity android:name=".controller.activity.ConsumptionActivity">
         </activity>
         <activity android:name=".controller.activity.LossActivity">
@@ -37,7 +35,7 @@
         </activity>
         <activity android:name=".controller.activity.EvaluationActivity">
         </activity>
-        <activity android:name=".controller.activity.TuitionActivity">
+        <activity android:name=".controller.activity.BalanceActivity">
         </activity>
         <activity android:name=".controller.activity.UserInfoActivity">
         </activity>

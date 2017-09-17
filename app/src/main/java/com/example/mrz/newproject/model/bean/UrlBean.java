@@ -34,10 +34,12 @@ public class UrlBean {
     public static String userInfoCode = "N121501";
     public static String userInfoUrl = "xsgrxx.aspx";
 
-    //缴费记录ip
-    public static String TuitionloginBaseUrl = "http://pfs.cqcet.edu.cn/";
-    //缴费登陆成功页面
-    public static String TuitionloginloginUrl = "framecontainer.aspx";
+    //一卡通登陆首页ip
+    public static String BALANCE_LOGIN_URL = "http://ecard.cqcet.edu.cn/default.aspx";
+
+    public static String CARDHOLDER_URL = "http://ecard.cqcet.edu.cn/Cardholder/AccBalance.aspx";
+    public static String QUERY_URL = "http://ecard.cqcet.edu.cn/Cardholder/Queryhistory.aspx";
+    public static String POST_QUERY_URL = "http://ecard.cqcet.edu.cn/Cardholder/QueryhistoryDetailFrame.aspx";
 
 
 
