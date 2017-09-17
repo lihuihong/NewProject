@@ -51,13 +51,13 @@ public class CourseDao {
 
         //第一列的数据
         String[] arr = new String[6];
-        for (int i = 0;i < arr.length;i++){
-            arr[0] = (trs.get(2).select("td").get(2+i).text());
+        for (int i = 0;i < courseModels.length;i++){
+            arr[0] = trs.get(2).select("td").get(2+i).text();
             arr[1] = trs.get(4).select("td").get(1+i).text();
             arr[2] = trs.get(6).select("td").get(2+i).text();
             arr[3] = trs.get(8).select("td").get(1+i).text();
             arr[4] = trs.get(10).select("td").get(2+i).text();
-            arr[5] = trs.get(11).select("td").get(1+i).text();
+            arr[5] = trs.get(12).select("td").get(1+i).text();
             courseModels[i].addAll(getItem(arr));
         }
         /*arr[0] = (trs.get(2).select("td").get(2).text());
@@ -116,7 +116,7 @@ public class CourseDao {
         for(int i = 0;i < arr.length;i++){
             if(!arr[i].equals(" ")){
                 String[] splits = arr[i].split(" ");
-                if(splits.length > 4)
+                if(splits.length > 4 && splits.length < 6)
                     models_1.add(new CourseBean(0, splits[0]+splits[1], i*2+1, 2, 1, splits[4], (int) (Math.random() * 10)));
                 else
                     models_1.add(new CourseBean(0, splits[0], i*2+1, 2, 1, splits[3], (int) (Math.random() * 10)));
