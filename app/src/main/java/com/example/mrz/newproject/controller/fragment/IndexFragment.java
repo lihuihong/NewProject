@@ -96,7 +96,11 @@ public class IndexFragment extends Fragment {
 
                     //获取成功
                     case GET_COURSE_SUCCED:
-                        initWeekCourseView();
+
+                        for (int i = 0; i < mWeekViews.size(); i++) {
+                            initWeekPanel(mWeekViews.get(i), courseModels[i]);
+                        }
+
                         break;
                 }
 
@@ -104,8 +108,22 @@ public class IndexFragment extends Fragment {
         };
         initWeekNameView();
         initSectionView();
+        initWeekCourseView();
         setRefreshListener();
 
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        bind.unbind();
+    }
+
+    /**
+     * 初始化课程表
+     */
+    private void initWeekCourseView() {
         new Thread(){
             @Override
             public void run() {
@@ -124,21 +142,6 @@ public class IndexFragment extends Fragment {
                 }
             }
         }.start();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        bind.unbind();
-    }
-
-    /**
-     * 初始化课程表
-     */
-    private void initWeekCourseView() {
-        for (int i = 0; i < mWeekViews.size(); i++) {
-            initWeekPanel(mWeekViews.get(i), courseModels[i]);
-        }
     }
 
     /**
