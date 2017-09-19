@@ -34,12 +34,9 @@ public class UrlBean {
     public static String userInfoCode = "N121501";
     public static String userInfoUrl = "xsgrxx.aspx";
 
-    //一卡通登陆首页ip
-    public static String BALANCE_LOGIN_URL = "http://ecard.cqcet.edu.cn/default.aspx";
-
-    public static String CARDHOLDER_URL = "http://ecard.cqcet.edu.cn/Cardholder/AccBalance.aspx";
-    public static String QUERY_URL = "http://ecard.cqcet.edu.cn/Cardholder/Queryhistory.aspx";
-    public static String POST_QUERY_URL = "http://ecard.cqcet.edu.cn/Cardholder/QueryhistoryDetailFrame.aspx";
+    //课表信息
+    public static String courseUrl = "xskbcx.aspx";
+    public static String courseCode ="N121603";
 
 
 

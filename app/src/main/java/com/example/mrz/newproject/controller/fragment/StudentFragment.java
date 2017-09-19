@@ -56,17 +56,15 @@ public class StudentFragment extends Fragment {
     //教学质量一键评价
     @BindView(R.id.tv_evaluation)
     TextView mTv_evaluation;
-    //刷新图标
-    @BindView(R.id.iv_refresh)
-    ImageView mIv_refresh;
     //toolbar
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     View view;
     private Intent mIntent;
-    //刷新动画
-    private Animation mAnimation;
+
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
 
     @Nullable
     @Override
@@ -75,28 +73,19 @@ public class StudentFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_student, null);
             ButterKnife.bind(this, view);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-            setHasOptionsMenu(true);
+//            ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+//            setHasOptionsMenu(true);
         }
 
         return view;
     }
 
-    //刷新事件
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1000:
-                    if (mAnimation != null) {
-                        mIv_refresh.clearAnimation();
-                        Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-            }
-        }
-    };
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        toolbar_title.setText("功能");
+        super.onActivityCreated(savedInstanceState);
+    }
 
     //监听事件
     @OnClick({R.id.tv_balance, R.id.tv_consumption, R.id.tv_loss, R.id.tv_elective,
@@ -137,23 +126,5 @@ public class StudentFragment extends Fragment {
 
     }
 
-    //刷新按钮点击事件
-    @OnClick(R.id.iv_refresh)
-    public void myRefresh() {
-        startAnimation();
-        mHandler.sendEmptyMessageDelayed(1000, 3000);
-    }
-
-    //动画事件
-    private void startAnimation() {
-        mAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.iv_rotating);
-        //插值器
-        LinearInterpolator ll = new LinearInterpolator();
-        mAnimation.setInterpolator(ll);
-        if (mAnimation != null) {
-            //开始动画
-            mIv_refresh.startAnimation(mAnimation);
-        }
-    }
 
 }

@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +102,7 @@ public class HeadZoomScrollView extends ScrollView {
                 return true;
             case MotionEvent.ACTION_UP:
                 mScaling = false;
+
                 replyView();
                 break;
         }
@@ -110,8 +112,11 @@ public class HeadZoomScrollView extends ScrollView {
     /**放大view*/
     private void setZoom(float s) {
         float scaleTimes = (float) ((zoomViewWidth+s)/(zoomViewWidth*1.0));
+
 //        如超过最大放大倍数，直接返回
-        if (scaleTimes > mScaleTimes) return;
+        if (scaleTimes > mScaleTimes) {
+            return;
+        }
 
         ViewGroup.LayoutParams layoutParams = zoomView.getLayoutParams();
         layoutParams.width = (int) (zoomViewWidth + s);
@@ -150,6 +155,7 @@ public class HeadZoomScrollView extends ScrollView {
     public  interface OnScrollListener{
         void onScroll(int scrollX,int scrollY,int oldScrollX, int oldScrollY);
     }
+
 
 
 }
