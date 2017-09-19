@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mrz.newproject.R;
+import com.example.mrz.newproject.model.bean.User;
 import com.example.mrz.newproject.model.dao.LoginDao;
 import com.example.mrz.newproject.uitls.DensityUtils;
 import com.example.mrz.newproject.view.LoginAnimator;
@@ -179,6 +180,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //点击的是登录按钮
             case R.id.login_post:
 
+                User.setXh(login_userName.getText().toString());
                 final String userName = login_userName.getText().toString();
                 final String password = login_passWord.getText().toString();
 

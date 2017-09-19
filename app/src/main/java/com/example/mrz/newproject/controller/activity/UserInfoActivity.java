@@ -15,7 +15,7 @@ import com.example.mrz.newproject.model.bean.UserInfoKVP;
 import com.example.mrz.newproject.model.dao.GSUserInfoDao;
 import com.example.mrz.newproject.view.DividerItemDecoration;
 
-import org.jsoup.select.Elements;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.List;
@@ -62,7 +62,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         //将基本信息设置为垂直布局
                         userinfo_basic.setLayoutManager(new LinearLayoutManager(UserInfoActivity.this));
                         //解析基本信息
-                        List<UserInfoKVP> basicInfos = GSUserInfoDao.getbasicInfo((Elements) msg.obj);
+                        List<UserInfoKVP> basicInfos = GSUserInfoDao.getbasicInfo((Document) msg.obj);
                         //为基本信息设置适配器
                         userinfo_basic.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,basicInfos));
 
@@ -71,7 +71,7 @@ public class UserInfoActivity extends AppCompatActivity {
                         //将学校信息设置为垂直布局
                         userinfo_school.setLayoutManager(new LinearLayoutManager(UserInfoActivity.this));
                         //解析学校信息
-                        List<UserInfoKVP> schoolInfo = GSUserInfoDao.getSchoolInfo((Elements) msg.obj);
+                        List<UserInfoKVP> schoolInfo = GSUserInfoDao.getSchoolInfo((Document) msg.obj);
                         //为学校信息设置适配器
                         userinfo_school.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,schoolInfo));
 
@@ -101,7 +101,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 try {
 
                     //获取全部个人信息
-                    Elements allUserInfo = GSUserInfoDao.getAllUserInfo(getUserInfoUrl);
+                    Document allUserInfo = GSUserInfoDao.getAllUserInfo(getUserInfoUrl);
 
                     msg.obj = allUserInfo;
                     msg.what = GET_USERINFO_SUCCED;

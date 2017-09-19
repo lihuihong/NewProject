@@ -12,7 +12,6 @@ public class User {
     //学生姓名
     public static String xm;
     //身份证后六位
-
     private static String id;
 
     public static String getId() {
@@ -27,7 +26,16 @@ public class User {
         User.xh = xh;
     }
 
+    public static String getXm() {
+        return xm;
+    }
+
+    public static String getXh() {
+        return xh;
+    }
+
     public static void setXm(String xm) {
+
         User.xm = xm;
     }
 

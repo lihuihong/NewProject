@@ -38,6 +38,14 @@ public class UrlBean {
     public static String courseUrl = "xskbcx.aspx";
     public static String courseCode ="N121603";
 
+    //一卡通登录地址
+    public final static String ECARDURL = "http://ecard.cqcet.edu.cn/";
+
+    //一卡通余额查询
+    public final static String CARDHOLDER_URL = "http://ecard.cqcet.edu.cn/Cardholder/AccBalance.aspx";
+
+    //一卡通消费记录查询
+    public final static String ECARD_QUERY_URL = "http://ecard.cqcet.edu.cn/Cardholder/Queryhistory.aspx";
 
 
 
