@@ -18,6 +18,7 @@ import com.example.mrz.newproject.controller.activity.ElectiveActivity;
 import com.example.mrz.newproject.controller.activity.EvaluationActivity;
 import com.example.mrz.newproject.controller.activity.LossActivity;
 import com.example.mrz.newproject.controller.activity.ScoreQueryActivity;
+import com.example.mrz.newproject.controller.activity.ScoreSelectActivity;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
 import com.example.mrz.newproject.model.dao.GSUserInfoDao;
@@ -50,7 +51,7 @@ import static com.example.mrz.newproject.R.id.tv_balance;
  * 作用：选课
  */
 
-public class StudentFragment extends ViewPagerFragment {
+public class StudentFragment extends Fragment {
 
     //余额查询
     @BindView(tv_balance)
@@ -103,9 +104,7 @@ public class StudentFragment extends ViewPagerFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
-        super.onFragmentVisibleChange(isVisible);
         if (isVisible) {
             if (User.getId() == null) {
                 new Thread(new Runnable() {
@@ -248,7 +247,7 @@ public class StudentFragment extends ViewPagerFragment {
                 break;
             //学生成绩查询
             case R.id.tv_results:
-                mIntent = new Intent(getActivity(), ScoreQueryActivity.class);
+                mIntent = new Intent(getActivity(), ScoreSelectActivity.class);
                 startActivity(mIntent);
                 break;
             //教学质量一键评价

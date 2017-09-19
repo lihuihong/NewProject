@@ -4,13 +4,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
+import com.example.mrz.newproject.controller.adapter.ScoreRecyclerAdapter;
+import com.example.mrz.newproject.model.bean.ScoreBean;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,22 +27,17 @@ import butterknife.OnClick;
 
 public class ScoreQueryActivity extends AppCompatActivity {
 
-    //年份选择
-    @BindView(R.id.score_year_sp)
-    Spinner score_year_sp;
+    @BindView(R.id.score_rv)
+    RecyclerView score_rv;
 
-    //学期选择
-    @BindView(R.id.score_term_sp)
-    Spinner score_term_sp;
+    //标题栏
+    @BindView(R.id.toolbar_more)
+    ImageView toolbar_more;
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
+    @BindView(R.id.toolbar_iv)
+    ImageView toolbar_iv;
 
-
-    //学期选择
-    @BindView(R.id.score_btn_year)
-    Button score_btn_year;
-
-    //学期选择
-    @BindView(R.id.score_btn_terms)
-    Button score_btn_terms;
 
 
     @Override
@@ -43,39 +47,42 @@ public class ScoreQueryActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        initView();
+
+        initData();
     }
 
+    private void initView() {
 
+        //隐藏更多按钮
+        toolbar_more.setVisibility(View.GONE);
 
+        //设置标题
+        toolbar_title.setText("成绩查询");
 
-
-    //监听事件
-    @OnClick({R.id.score_btn_year, R.id.score_btn_terms })
-    public void myButton(TextView btn) {
-        switch (btn.getId()) {
-
-            //按年查询
-            case R.id.score_btn_year:
-
-                break;
-            //按学期查询
-            case R.id.score_btn_terms:
-
-                break;
-        }
-    }
-
-    private void getData(){
-        new Thread(){
+        //添加事件 返回
+        toolbar_iv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-
-                //拼接成绩地址
-                String url = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.scoreUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.scoreCode;
-
-
+            public void onClick(View view) {
+                finish();
             }
-        }.start();
+        });
+    }
+
+    private void initData() {
+
+        //获取传递过来的数据
+        List<ScoreBean> scores = (ArrayList<ScoreBean>) getIntent().getSerializableExtra("scores");
+
+
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+
+        score_rv.setLayoutManager(manager);
+
+        //设置数据适配器
+        ScoreRecyclerAdapter adapter = new ScoreRecyclerAdapter(this,scores);
+
+        score_rv.setAdapter(adapter);
     }
 
 
