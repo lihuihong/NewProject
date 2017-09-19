@@ -99,6 +99,8 @@ public class GSUserInfoDao {
         tds = trs.get(10).select("td");
         String id = tds.get(3).text();
         User.setId(id.substring(id.length()-6,id.length()));
+
+
         infos.add(new UserInfoKVP(tds.get(2).text(),tds.get(3).text()));
 
         return infos;

@@ -25,28 +25,19 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".controller.activity.ElectiveActivity">
-        </activity>
-        <activity android:name=".controller.activity.ConsumptionActivity">
-        </activity>
-        <activity android:name=".controller.activity.LossActivity">
-        </activity>
-        <activity android:name=".controller.activity.ResultsActivity">
-        </activity>
-        <activity android:name=".controller.activity.EvaluationActivity">
-        </activity>
-        <activity android:name=".controller.activity.BalanceActivity">
-        </activity>
-        <activity android:name=".controller.activity.UserInfoActivity">
-        </activity>
-        <activity android:name=".controller.activity.OpinionActivity">
-        </activity>
-        <activity android:name=".controller.activity.QqActivity">
-        </activity>
-        <activity android:name=".controller.activity.DocumentActivity">
-        </activity>
-        <activity android:name=".controller.activity.SettingActivity">
-        </activity>
+        <activity android:name=".controller.activity.ElectiveActivity" />
+        <activity android:name=".controller.activity.BalanceActivity" />
+        <activity android:name=".controller.activity.ConsumptionActivity" />
+        <activity android:name=".controller.activity.LossActivity" />
+        <activity android:name=".controller.activity.EvaluationActivity" />
+        <activity android:name=".controller.activity.TuitionActivity" />
+        <activity android:name=".controller.activity.UserInfoActivity" />
+        <activity android:name=".controller.activity.OpinionActivity" />
+        <activity android:name=".controller.activity.QqActivity" />
+        <activity android:name=".controller.activity.DocumentActivity" />
+        <activity android:name=".controller.activity.SettingActivity" />
+        <activity android:name=".controller.activity.ScoreQueryActivity" />
+        <activity android:name=".controller.activity.ScoreSelectActivity"></activity>
     </application>
 
 </manifest>
