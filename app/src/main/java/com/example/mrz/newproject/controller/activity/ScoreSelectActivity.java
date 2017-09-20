@@ -1,5 +1,6 @@
 package com.example.mrz.newproject.controller.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -56,6 +57,7 @@ public class ScoreSelectActivity extends AppCompatActivity {
     public void myButton(TextView btn) {
         switch (btn.getId()) {
 
+
             //按年查询
             case R.id.score_btn_year:
 
@@ -78,7 +80,6 @@ public class ScoreSelectActivity extends AppCompatActivity {
                             intent.putExtra("scores",(Serializable)scores);
 
                             startActivity(intent);
-
 
                         } catch (IOException e) {
                             e.printStackTrace();
