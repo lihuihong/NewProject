@@ -1,8 +1,5 @@
 package com.example.mrz.newproject.model.bean;
 
-/**
- * Created by Mr.z on 2017/6/18.
- */
 
 public class Consume {
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.example.mrz.newproject.controller.activity.ConsumptionActivity;
 import com.example.mrz.newproject.controller.activity.ElectiveActivity;
 import com.example.mrz.newproject.controller.activity.EvaluationActivity;
 import com.example.mrz.newproject.controller.activity.LossActivity;
-import com.example.mrz.newproject.controller.activity.ScoreQueryActivity;
 import com.example.mrz.newproject.controller.activity.ScoreSelectActivity;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
@@ -99,6 +97,27 @@ public class StudentFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        if (User.getId() == null) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //个人信息url地址
+                    String getUserInfoUrl = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.userInfoUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.userInfoCode;
+                    try {
+                        GSUserInfoDao.getbasicInfo(GSUserInfoDao.getAllUserInfo(getUserInfoUrl));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    //获取验证码
+                    getcode();
+                    //登录一卡通
+                    login();
+
+
+                }
+            }).start();
+        }
 
         toolbar_title.setText("功能");
         super.onActivityCreated(savedInstanceState);
@@ -106,26 +125,7 @@ public class StudentFragment extends Fragment {
 
     protected void onFragmentVisibleChange(boolean isVisible) {
         if (isVisible) {
-            if (User.getId() == null) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //个人信息url地址
-                        String getUserInfoUrl = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.userInfoUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.userInfoCode;
-                        try {
-                            GSUserInfoDao.getbasicInfo(GSUserInfoDao.getAllUserInfo(getUserInfoUrl));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
 
-                        //获取验证码
-                        getcode();
-                        //登录一卡通
-                        login();
-
-                    }
-                }).start();
-            }
         } else {
             //        setRefresh(false);
         }
@@ -133,9 +133,9 @@ public class StudentFragment extends Fragment {
 
     private void login() {
         postDatas.put("UserLogin:txtUser", User.getXh());
-        Log.i("用户", "login: " + User.getXh());
+        //Log.i("用户", "login: " + User.getXh());
         postDatas.put("UserLogin:txtPwd", User.getId());
-        Log.i("密码", "login: " + User.getId());
+        //Log.i("密码", "login: " + User.getId());
 
         postDatas.put("__EVENTTARGET", "");
         postDatas.put("__LASTFOCUS", "");
@@ -170,7 +170,7 @@ public class StudentFragment extends Fragment {
 
             if (rsp.code() == 302 && data != null) {
 
-                Log.i("返回码", "login: "+rsp.code() + data);
+                //Log.i("返回码", "login: "+rsp.code() + data);
                 intiData();
 
             }
@@ -188,7 +188,7 @@ public class StudentFragment extends Fragment {
                     Response rsp = OkHttpUitl.getInstance().newCall(res).execute();
                     if(rsp.isSuccessful()){
                         String data = rsp.body().string();
-                        Log.d("record","record执行成功" +data);
+                        //Log.d("record","record执行成功" +data);
 
                     }
 

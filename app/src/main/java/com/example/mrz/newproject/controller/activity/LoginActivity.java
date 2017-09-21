@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
  * 作用：登录界面
  */
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.login_username)
     EditText login_userName;
@@ -72,10 +72,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         //初始化handler
-        mHandler = new Handler(){
+        mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what){
+                switch (msg.what) {
                     case LOGIN_SUCCED:
                         loginSuccedHandler();
                         break;
@@ -95,13 +95,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //获取本地储存，如果学号和密码存在就读取
         SharedPreferences pref = getSharedPreferences("userInfoData", MODE_PRIVATE);
-        login_userName.setText(pref.getString("userName",""));
-        login_passWord.setText(pref.getString("passWord",""));
+        login_userName.setText(pref.getString("userName", ""));
+        login_passWord.setText(pref.getString("passWord", ""));
     }
 
 
     //登录成功处理
-    private void loginSuccedHandler(){
+    private void loginSuccedHandler() {
 
         //如果登录成功，就将学号和密码保存在本地
         SharedPreferences.Editor editor = getSharedPreferences("userInfoData", MODE_PRIVATE).edit();
@@ -110,8 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.apply();
 
 
-
-        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //        Log.d("message",Build.VERSION.SDK_INT+"");
 //        Bundle sharedView = ActivityOptionsCompat.makeSceneTransitionAnimation(this, ll_login_post, "sharedView").toBundle();
 //
@@ -123,16 +122,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            startActivity(intent);
 //        }
         startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         finish();
 
     }
 
 
-
     //登录失败处理
-    private void loginFailedHandler(String msg){
+    private void loginFailedHandler(String msg) {
 
         new AlertDialog.Builder(this)
                 .setTitle("登录失败")
@@ -151,8 +149,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         login_post.setText("登录");
                         login_post.setText("立即登录");
                         login_post.setTextSize(22);
-                        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        layoutParam.setMargins(0, DensityUtils.dip2px(LoginActivity.this,20), 0, 0);
+                        LinearLayout.LayoutParams layoutParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        layoutParam.setMargins(0, DensityUtils.dip2px(LoginActivity.this, 20), 0, 0);
                         login_post.setLayoutParams(layoutParam);
                         login_post.setBackgroundResource(R.drawable.login_botton_bg);
                         login_post.setTextColor(getResources().getColor(R.color.white));
@@ -175,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(final View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
             //点击的是登录按钮
             case R.id.login_post:
@@ -186,67 +184,67 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                 //传入用户名和密码,检查是否合格
-                int checkCode = LoginDao.check(userName,password);
-                switch (checkCode){
-                case -1:
-                    Toast.makeText(this,"学号不能为空，请输入",Toast.LENGTH_SHORT).show();
-                    break;
-                case -2:
-                    Toast.makeText(this,"密码不能为空，请输入",Toast.LENGTH_SHORT).show();
-                    break;
-                case -3:
-                    //显示对话框
-                    new AlertDialog.Builder(this)
-                            .setTitle("登录失败")
-                            .setMessage("请输入正确的账号!")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    login_userName.setText(null);
+                int checkCode = LoginDao.check(userName, password);
+                switch (checkCode) {
+                    case -1:
+                        Toast.makeText(this, "学号不能为空，请输入", Toast.LENGTH_SHORT).show();
+                        break;
+                    case -2:
+                        Toast.makeText(this, "密码不能为空，请输入", Toast.LENGTH_SHORT).show();
+                        break;
+                    case -3:
+                        //显示对话框
+                        new AlertDialog.Builder(this)
+                                .setTitle("登录失败")
+                                .setMessage("请输入正确的账号!")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        login_userName.setText(null);
+                                    }
+                                })
+                                .show();
+                        break;
+                    default:
+
+                        // 隐藏输入框
+                        //login_post.setVisibility(View.INVISIBLE);
+                        login_post.setText("");
+                        //mPsw.setVisibility(View.INVISIBLE);
+
+                        //启动动画
+                        float mWidth = login_post.getMeasuredWidth();
+                        float mHeight = login_post.getMeasuredHeight();
+                        LoginAnimator animator = new LoginAnimator(progress);
+                        animator.inputAnimator(login_post, mWidth, mHeight);
+
+
+                        //获取登录状态码,应需要访问网络，所以需要子线程
+                        new Thread() {
+                            @Override
+                            public void run() {
+
+
+                                int loginCode = 0;
+                                try {
+                                    loginCode = LoginDao.login(userName, password);
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
-                            })
-                            .show();
-                    break;
-                default:
-
-                    // 隐藏输入框
-                    //login_post.setVisibility(View.INVISIBLE);
-                    login_post.setText("");
-                    //mPsw.setVisibility(View.INVISIBLE);
-
-                    //启动动画
-                    float mWidth = login_post.getMeasuredWidth();
-                    float mHeight = login_post.getMeasuredHeight();
-                    LoginAnimator animator = new LoginAnimator(progress);
-                    animator.inputAnimator(login_post, mWidth, mHeight);
-
-
-                    //获取登录状态码,应需要访问网络，所以需要子线程
-                    new Thread(){
-                        @Override
-                        public void run() {
-
-
-                            int loginCode = 0;
-                            try {
-                                loginCode = LoginDao.login(userName,password);
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                                Message msg = new Message();
+                                // 非1：登录失败 1：登录成功
+                                if (loginCode == 1) {
+                                    msg.what = LOGIN_SUCCED;
+                                    mHandler.sendMessage(msg);
+                                } else {
+                                    msg.what = LOGIN_FAILED;
+                                    msg.obj = "学号或者密码错误，请检查！";
+                                    mHandler.sendMessage(msg);
+                                }
                             }
-                            Message msg = new Message();
-                            // 非1：登录失败 1：登录成功
-                            if(loginCode == 1){
-                                msg.what = LOGIN_SUCCED;
-                                mHandler.sendMessage(msg);
-                            }else{
-                                msg.what = LOGIN_FAILED;
-                                msg.obj = "学号或者密码错误，请检查！";
-                                mHandler.sendMessage(msg);
-                            }
-                        }
-                    }.start();
-                    break;
+                        }.start();
+                        break;
                 }
                 break;
             //点击了登录帮助

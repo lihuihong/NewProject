@@ -46,6 +46,10 @@ public class UrlBean {
 
     //一卡通消费记录查询
     public final static String ECARD_QUERY_URL = "http://ecard.cqcet.edu.cn/Cardholder/Queryhistory.aspx";
+
+
+    public final static String POST_QUERY_URL = "http://ecard.cqcet.edu.cn/Cardholder/QueryhistoryDetailFrame.aspx";
+
     //成绩查询
     public static String scoreUrl = "xscjcx.aspx";
     public static String scoreCode = "N121605";
