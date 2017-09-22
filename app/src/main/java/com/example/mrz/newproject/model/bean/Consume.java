@@ -1,7 +1,9 @@
 package com.example.mrz.newproject.model.bean;
 
 
-public class Consume {
+import java.io.Serializable;
+
+public class Consume implements Serializable {
 
     private String type;
     private String address;

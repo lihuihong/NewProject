@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.controller.activity.BalanceActivity;
@@ -18,6 +16,7 @@ import com.example.mrz.newproject.controller.activity.ElectiveActivity;
 import com.example.mrz.newproject.controller.activity.EvaluationActivity;
 import com.example.mrz.newproject.controller.activity.LossActivity;
 import com.example.mrz.newproject.controller.activity.ScoreSelectActivity;
+import com.example.mrz.newproject.model.bean.Consume;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
 import com.example.mrz.newproject.model.dao.GSUserInfoDao;
@@ -30,8 +29,10 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -74,6 +75,7 @@ public class StudentFragment extends Fragment {
     View view;
     private Intent mIntent;
 
+    private List<Consume> mConsumes = new ArrayList<>();
 
     Map<String, String> postDatas = new HashMap<>(); //post提交数据
 
