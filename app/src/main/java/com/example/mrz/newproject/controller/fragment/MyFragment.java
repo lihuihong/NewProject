@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,14 @@ import com.example.mrz.newproject.controller.activity.SettingActivity;
 import com.example.mrz.newproject.controller.activity.UserInfoActivity;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
+import com.example.mrz.newproject.model.bean.UserInfoKVP;
 import com.example.mrz.newproject.model.dao.GSUserInfoDao;
 
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +75,9 @@ public class MyFragment extends Fragment {
 
     private Handler mHandler;
 
+    //个人信息
+    private Document doc;
+
 
     //获取头像成功
     private final int GET_INFO_IMG_SUCCED = 0X111111;
@@ -96,7 +103,6 @@ public class MyFragment extends Fragment {
                         case GET_INFO_IMG_FAILED:
                             break;
                     }
-
                 }
             };
         }
@@ -116,16 +122,15 @@ public class MyFragment extends Fragment {
 
                 //个人信息url地址
                 String getUserInfoUrl = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.userInfoUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.userInfoCode;
-
                 Message msg = new Message();
 
                 try {
                     //获取全部个人信息
-                    Document allUserInfo = GSUserInfoDao.getAllUserInfo(getUserInfoUrl);
+                    doc = GSUserInfoDao.getAllUserInfo(getUserInfoUrl);
 
                     msg.what = GET_INFO_IMG_SUCCED;
                     //获取到的图片
-                    msg.obj = GSUserInfoDao.getUserInfoImg(allUserInfo);
+                    msg.obj = GSUserInfoDao.getUserInfoImg(doc);
 
                     mHandler.sendMessage(msg);
 
@@ -146,6 +151,17 @@ public class MyFragment extends Fragment {
             //详细信息
             case R.id.ll_avatar:
                 mIntent = new Intent(getActivity(), UserInfoActivity.class);
+                //基本信息
+                List<UserInfoKVP> basicInfos = GSUserInfoDao.getbasicInfo(doc);
+                mIntent.putExtra("basicInfos", (Serializable) basicInfos);
+                //联系信息
+                List<UserInfoKVP> connInfos = GSUserInfoDao.getConnInfo(doc);
+                mIntent.putExtra("connInfos", (Serializable) connInfos);
+
+                //学校信息
+                List<UserInfoKVP> schoolInfos = GSUserInfoDao.getSchoolInfo(doc);
+                mIntent.putExtra("schoolInfos", (Serializable) schoolInfos);
+
                 startActivity(mIntent);
                 break;
             //意见提交

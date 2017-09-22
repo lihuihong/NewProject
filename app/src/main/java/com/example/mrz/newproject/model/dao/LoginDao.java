@@ -1,6 +1,7 @@
 package com.example.mrz.newproject.model.dao;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
@@ -140,6 +141,7 @@ public class LoginDao {
         Response rsp = OkHttpUitl.getInstance().newCall(request).execute();
         String body = rsp.body().string();
 
+        Log.d("body",body);
 
         //使用jsoup解析
         Document doc = Jsoup.parse(body);

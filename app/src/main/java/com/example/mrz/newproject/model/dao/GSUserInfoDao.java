@@ -85,15 +85,15 @@ public class GSUserInfoDao {
 
         //性别
         tds = trs.get(3).select("td");
-        infos.add(new UserInfoKVP(tds.get(0).text(),tds.get(1).text()));
+        infos.add(new UserInfoKVP(tds.get(0).text().split("：")[0],tds.get(1).text()));
 
         //出身日期
         tds = trs.get(4).select("td");
-        infos.add(new UserInfoKVP(tds.get(0).text(),tds.get(1).text()));
+        infos.add(new UserInfoKVP(tds.get(0).text().split("：")[0],tds.get(1).text()));
 
         //民族
         tds = trs.get(5).select("td");
-        infos.add(new UserInfoKVP(tds.get(0).text(),tds.get(1).text()));
+        infos.add(new UserInfoKVP(tds.get(0).text().split("：")[0],tds.get(1).text()));
 
         //身份证号
         tds = trs.get(10).select("td");
@@ -101,11 +101,13 @@ public class GSUserInfoDao {
         User.setId(id.substring(id.length()-6,id.length()));
 
 
-        infos.add(new UserInfoKVP(tds.get(2).text(),tds.get(3).text()));
+        infos.add(new UserInfoKVP(tds.get(2).text().split("：")[0],tds.get(3).text()));
 
         return infos;
     }
 
+
+    //学校信息
     public static List<UserInfoKVP> getSchoolInfo(Document doc){
 
         //获取table标签下的所有tr标签
@@ -140,6 +142,7 @@ public class GSUserInfoDao {
         return infos;
     }
 
+    //联系信息
     public static List<UserInfoKVP> getConnInfo(Document doc){
 
         //获取table标签下的所有tr标签

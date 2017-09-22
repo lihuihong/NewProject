@@ -9,38 +9,38 @@
     android:layout_height="?attr/actionBarSize"
     >
 
-<android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    app:layout_scrollFlags="scroll|enterAlways">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_marginRight="10dp"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?attr/actionBarSize"
+        app:layout_scrollFlags="scroll|enterAlways">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/toolbar_iv"
-            android:src="@drawable/go_back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/toolbar_iv"
+                android:src="@drawable/go_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:gravity="center"
-            android:text="网上选课"
-            android:textSize="18sp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:gravity="center"
+                android:text="网上选课"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
 
-        <ImageView
-            android:id="@+id/toolbar_more"
-            android:src="@drawable/toolbar_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/toolbar_more"
+                android:src="@drawable/toolbar_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-</android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+    </android.support.v7.widget.Toolbar>
+</android.support.design.widget.AppBarLayout>

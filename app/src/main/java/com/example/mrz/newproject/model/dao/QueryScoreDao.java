@@ -17,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,8 @@ public class QueryScoreDao {
 
     private static String url;
 
+    public static HashSet<String> years = new HashSet<>();
+
     //获取请求数据
     public static void getScorePostData(String url) throws IOException {
 
@@ -42,8 +45,6 @@ public class QueryScoreDao {
         String main_url = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.mainUrl + "?xh=" + User.xh;
 
         QueryScoreDao.url = url;
-
-        Log.d("body",url);
 
         Request request = new Request.Builder()
                 .url(url)
@@ -67,8 +68,9 @@ public class QueryScoreDao {
 
     }
 
-    public static List<ScoreBean> getScorePostAll() throws IOException {
 
+    //获取历年成绩
+    public static List<ScoreBean> getScorePostAll() throws IOException {
 
         List<ScoreBean> scores = new ArrayList<>();
 
@@ -93,8 +95,6 @@ public class QueryScoreDao {
                 .removeHeader("User-Agent")
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
                 .addHeader("Referer",url)
-                .addHeader("Origin","http://222.180.192.2:8918")
-                .addHeader("Host","222.180.192.2:8918")
                 .post(requestBody)
                 .build();
 
@@ -112,7 +112,10 @@ public class QueryScoreDao {
 
             ScoreBean sb = new ScoreBean();
 
-            sb.setScoreYear(tds.get(0).text());
+            String year = tds.get(0).text();
+            sb.setScoreYear(year);
+            years.add(year);
+
             sb.setScoreTerm(tds.get(1).text());
             sb.setScoreId(tds.get(2).text());
             sb.setScoreName(tds.get(3).text());
@@ -121,13 +124,33 @@ public class QueryScoreDao {
             sb.setScoreGarde(tds.get(7).text());
             sb.setScoreResult(tds.get(8).text());
             sb.setScoreSchool(tds.get(12).text());
-
             scores.add(sb);
         }
         return scores;
 
     }
 
+    //获取指定学年成绩
+    public static List<ScoreBean> getScoreYears(List<ScoreBean> scores, String year){
 
+        List<ScoreBean> yearScores = new ArrayList<>();
+        for(int i = 0;i < scores.size();i++){
+            if(scores.get(i).getScoreYear().equals(year)){
+                yearScores.add(scores.get(i));
+            }
+        }
+        return yearScores;
+    }
 
+    //获取指定学期成绩
+    public static List<ScoreBean> getScoreTerms(List<ScoreBean> scores, String year,String term){
+        List<ScoreBean> termScores = new ArrayList<>();
+        for(int i = 0;i < scores.size();i++){
+            if(scores.get(i).getScoreYear().equals(year) && scores.get(i).getScoreTerm().equals(term)){
+                termScores.add(scores.get(i));
+            }
+        }
+        return termScores;
+
+    }
 }

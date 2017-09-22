@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
@@ -53,31 +54,26 @@ public class StudentFragment extends Fragment {
 
     //余额查询
     @BindView(tv_balance)
-    TextView mTv_balance;
+    LinearLayout mTv_balance;
     //消费情况查询
     @BindView(R.id.tv_consumption)
-    TextView mTv_consumption;
+    LinearLayout mTv_consumption;
     //一键挂失
     @BindView(R.id.tv_loss)
-    TextView mTv_loss;
+    LinearLayout mTv_loss;
     //网上选课
     @BindView(R.id.tv_elective)
-    TextView mTv_elective;
+    LinearLayout mTv_elective;
     //学生成绩查询
     @BindView(R.id.tv_results)
-    TextView mTv_results;
+    LinearLayout mTv_results;
     //教学质量一键评价
     @BindView(R.id.tv_evaluation)
-    TextView mTv_evaluation;
-    //toolbar
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    LinearLayout mTv_evaluation;
 
     View view;
     private Intent mIntent;
 
-    @BindView(R.id.toolbar_title)
-    TextView toolbar_title;
 
     Map<String, String> postDatas = new HashMap<>(); //post提交数据
 
@@ -119,7 +115,6 @@ public class StudentFragment extends Fragment {
             }).start();
         }
 
-        toolbar_title.setText("功能");
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -228,7 +223,7 @@ public class StudentFragment extends Fragment {
     //监听事件
     @OnClick({tv_balance, R.id.tv_consumption, R.id.tv_loss, R.id.tv_elective,
             R.id.tv_results, R.id.tv_evaluation})
-    public void myButton(TextView btn) {
+    public void myButton(LinearLayout btn) {
         switch (btn.getId()) {
             //余额查询
             case tv_balance:

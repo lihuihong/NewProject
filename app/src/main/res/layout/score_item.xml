@@ -3,10 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginRight="10dp"
+
+    android:layout_marginTop="5dp"
+
     >
     <LinearLayout
         android:orientation="vertical"
@@ -20,6 +19,10 @@
             android:layout_height="wrap_content">
             <TextView
                 android:text="课程名"
+                android:maxWidth="200sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/colorAccent"
                 android:id="@+id/score_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -32,8 +35,6 @@
                 android:layout_height="wrap_content" />
 
         </RelativeLayout>
-
-
 
         <LinearLayout
             android:visibility="gone"
@@ -55,6 +56,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

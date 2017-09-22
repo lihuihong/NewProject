@@ -10,7 +10,7 @@ import java.util.Map;
 public class UrlBean {
 
     //ip地址
-    public final static String IP = "http://222.180.192.2:8918";
+    public final static String IP = "http://222.180.192.2:8060";
 
     //链接中的sessionI
     public static String sessionId;

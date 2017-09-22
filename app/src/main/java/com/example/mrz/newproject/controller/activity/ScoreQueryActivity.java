@@ -58,7 +58,7 @@ public class ScoreQueryActivity extends AppCompatActivity {
         toolbar_more.setVisibility(View.GONE);
 
         //设置标题
-        toolbar_title.setText("历年成绩查询");
+        toolbar_title.setText(getIntent().getStringExtra("title"));
 
         //添加事件 返回
         toolbar_iv.setOnClickListener(new View.OnClickListener() {
