@@ -11,23 +11,9 @@ public class User {
 
     //学生姓名
     public static String xm;
-    //身份证后六位
-    private static String id;
-
-    public static String getId() {
-        return id;
-    }
-
-    public static void setId(String id) {
-        User.id = id;
-    }
 
     public static void setXh(String xh) {
         User.xh = xh;
-    }
-
-    public static String getXm() {
-        return xm;
     }
 
     public static String getXh() {
@@ -35,7 +21,6 @@ public class User {
     }
 
     public static void setXm(String xm) {
-
         User.xm = xm;
     }
 

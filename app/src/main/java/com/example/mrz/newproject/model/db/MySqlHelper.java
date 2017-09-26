@@ -29,18 +29,29 @@ public class MySqlHelper extends SQLiteOpenHelper {
         this(context, name,null,version);
     }
 
+
     //创建数据库
     public void onCreate(SQLiteDatabase db) {
-        Log.i(SWORD,"create a Database");
-        //创建数据库sql语句
-        String sql = "create table userInfo(id int,name varchar(20),)";
+
+        /*//创建数据库sql语句
+        String sql = "create table userInfo(id int,name varchar(20))";
+        //执行创建数据库操作
+        db.execSQL(sql);*/
+
+        //创建信息键值对
+        String sql = "create table InfoKvp(id INTEGER PRIMARY KEY AUTOINCREMENT,infoKey varchar(20),infoValue varchar(30))";
+        //执行创建数据库操作
+        db.execSQL(sql);
+
+        //创建课程表
+        sql = "create table Course(monday varchar(50),Tuesday varchar(50),Wednesday varchar(50),Thursday varchar(50), Friday varchar(50),Saturday varchar(50),sunday varchar(50))";
         //执行创建数据库操作
         db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //创建成功，日志输出提示
-        Log.i(SWORD,"update a Database");
+
+
     }
 }

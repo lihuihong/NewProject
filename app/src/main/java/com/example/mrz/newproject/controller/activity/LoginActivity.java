@@ -54,9 +54,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private Handler mHandler;
 
-    //弹出对话框的验证码图片
-    private ImageView login_dialog_iv;
-
     public final int LOGIN_FAILED = 0X11112;
     public final int LOGIN_SUCCED = 0x11111;
 
@@ -69,7 +66,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //添加点击事件
         initEvent();
-
 
         //初始化handler
         mHandler = new Handler() {
@@ -110,17 +106,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.apply();
 
 
+        LoginDao.isLogin = true;
+
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//        Log.d("message",Build.VERSION.SDK_INT+"");
-//        Bundle sharedView = ActivityOptionsCompat.makeSceneTransitionAnimation(this, ll_login_post, "sharedView").toBundle();
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            //启动动画
-//          startActivity(intent, sharedView);
-//            //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this, ll_login_post, "sharedView").toBundle());
-//        }else{
-//            startActivity(intent);
-//        }
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
@@ -178,7 +166,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //点击的是登录按钮
             case R.id.login_post:
 
-                User.setXh(login_userName.getText().toString());
                 final String userName = login_userName.getText().toString();
                 final String password = login_passWord.getText().toString();
 
@@ -227,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                 int loginCode = 0;
                                 try {
-                                    loginCode = LoginDao.login(userName, password);
+                                    loginCode = LoginDao.login(LoginActivity.this,userName, password);
 
                                 } catch (IOException e) {
                                     e.printStackTrace();

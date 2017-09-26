@@ -1,5 +1,7 @@
 package com.example.mrz.newproject.model.dao;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -31,14 +33,21 @@ public class LoginDao {
 
     private static Map<String,String> postDatas;
 
+    private static Context context;
+
+    public static boolean isLogin = false;
+
     /**
      * 登录逻辑处理过程
      *
+     * @param context 上下文
      * @param userName  用户名
      * @param passwd  密码
      * @return
      */
-    public static int login(String userName, String passwd) throws IOException {
+    public static int login(Context context,String userName, String passwd) throws IOException {
+
+        LoginDao.context = context;
 
         //获取sessionId
         getSession();
@@ -103,7 +112,15 @@ public class LoginDao {
         //获取学生姓名
         String xhxm = doc.getElementById("xhxm").text();
         xhxm = xhxm.substring(0,xhxm.length()-2);
+
+        //将学生姓名保存到本地
+        SharedPreferences.Editor editor = context.getSharedPreferences("userInfoData", context.MODE_PRIVATE).edit();
+        editor.putString("xhxm", xhxm);
+        editor.apply();
+
         User.setXm(xhxm);
+
+
     }
 
     //获取表单数据
@@ -118,11 +135,6 @@ public class LoginDao {
         String value = input.attr("value");
 
         postDatas = new HashMap<String,String>();
-
-//        builder.add("__VIEWSTATE", URLEncoder.encode(value,"GBK"));
-//        builder.add("Button1",URLEncoder.encode(" 登 录 ","GBK"));
-//        builder.add("RadioButtonList1", URLEncoder.encode("学生","GBK"));
-
 
         postDatas.put("__VIEWSTATE", URLEncoder.encode(value,"GBK"));
         postDatas.put("Button1",URLEncoder.encode(" 登 录 ","GBK"));
@@ -140,8 +152,6 @@ public class LoginDao {
 
         Response rsp = OkHttpUitl.getInstance().newCall(request).execute();
         String body = rsp.body().string();
-
-        Log.d("body",body);
 
         //使用jsoup解析
         Document doc = Jsoup.parse(body);

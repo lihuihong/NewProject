@@ -96,7 +96,6 @@ public class IndexFragment extends Fragment {
 
                     //获取成功
                     case GET_COURSE_SUCCED:
-
                         for (int i = 0; i < mWeekViews.size(); i++) {
                             initWeekPanel(mWeekViews.get(i), courseModels[i]);
                         }
@@ -124,24 +123,29 @@ public class IndexFragment extends Fragment {
      * 初始化课程表
      */
     private void initWeekCourseView() {
-        new Thread(){
-            @Override
-            public void run() {
 
-                //拼接课表地址
-                String url = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.courseUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.courseCode;
+        if(CourseDao.isHaveCourse(getContext())){
+            courseModels = CourseDao.queryCourseData();
+            mHandler.sendEmptyMessage(GET_COURSE_SUCCED);
+        }else{
+            new Thread(){
+                @Override
+                public void run() {
 
-                //xskbcx.aspx?xh=2016180560&xm=赵朝权&gnmkdm=N121603
+                    //拼接课表地址
+                    String url = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.courseUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.courseCode;
 
-                try {
-                    courseModels = CourseDao.getCourseData(url);
-                    mHandler.sendEmptyMessage(GET_COURSE_SUCCED);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    mHandler.sendEmptyMessage(GET_COURSE_FAILED);
+                    try {
+                        CourseDao.getCourseData(url);
+                        courseModels = CourseDao.queryCourseData();
+                        mHandler.sendEmptyMessage(GET_COURSE_SUCCED);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        mHandler.sendEmptyMessage(GET_COURSE_FAILED);
+                    }
                 }
-            }
-        }.start();
+            }.start();
+        }
     }
 
     /**
@@ -150,9 +154,9 @@ public class IndexFragment extends Fragment {
     private void setRefreshListener() {
         mFreshLayout.setLoadMore(false);
         mFreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
-                    @Override
-                    public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                        clearChildView();
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                clearChildView();
                 initWeekCourseView();
                 mFreshLayout.postDelayed(new Runnable() {
                     @Override

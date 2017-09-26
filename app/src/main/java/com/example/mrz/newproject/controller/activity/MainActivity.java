@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     //viewpager相关操作
     private void initViewPager() {
 
+        mViewPager.setOffscreenPageLimit(1);
+
         mFragments = new ArrayList<>();
         //向Fragment中添加视图
         mFragments.add(new StudentFragment());

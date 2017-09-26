@@ -55,40 +55,6 @@ public class UserInfoActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mHandler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-
-                switch (msg.what){
-                    case GET_USERINFO_SUCCED:
-
-                        userinfo_basic.addItemDecoration(new DividerItemDecoration(UserInfoActivity.this,DividerItemDecoration.VERTICAL_LIST));
-
-                        //将基本信息设置为垂直布局
-                        userinfo_basic.setLayoutManager(new LinearLayoutManager(UserInfoActivity.this));
-                        //解析基本信息
-                        List<UserInfoKVP> basicInfos = GSUserInfoDao.getbasicInfo((Document) msg.obj);
-                        //为基本信息设置适配器
-                        userinfo_basic.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,basicInfos));
-
-
-                        userinfo_school.addItemDecoration(new DividerItemDecoration(UserInfoActivity.this,DividerItemDecoration.VERTICAL_LIST));
-                        //将学校信息设置为垂直布局
-                        userinfo_school.setLayoutManager(new LinearLayoutManager(UserInfoActivity.this));
-                        //解析学校信息
-                        List<UserInfoKVP> schoolInfo = GSUserInfoDao.getSchoolInfo((Document) msg.obj);
-                        //为学校信息设置适配器
-                        userinfo_school.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,schoolInfo));
-
-
-                        break;
-                    case GET_USERINFO_FAILED:
-
-                        break;
-                }
-            }
-        };
-
         initData();
 
     }
@@ -124,34 +90,6 @@ public class UserInfoActivity extends AppCompatActivity {
         userinfo_school.setAdapter(new UserInfoRecyclerAdapter(UserInfoActivity.this,schoolInfos));
 
 
-
-         /*new Thread(){
-            @Override
-            public void run() {
-                Message msg = new Message();
-
-                //个人信息url地址
-                String getUserInfoUrl = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.userInfoUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.userInfoCode;
-
-                try {
-
-                    //获取全部个人信息
-                    Document allUserInfo = GSUserInfoDao.getAllUserInfo(getUserInfoUrl);
-
-                    msg.obj = allUserInfo;
-                    msg.what = GET_USERINFO_SUCCED;
-
-
-
-                    mHandler.sendMessage(msg);
-
-                } catch (IOException e) {
-
-                    msg.what = GET_USERINFO_FAILED;
-                    mHandler.sendMessage(msg);
-                }
-            }
-        }.start();*/
     }
 
 

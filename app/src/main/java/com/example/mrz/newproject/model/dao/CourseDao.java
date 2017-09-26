@@ -1,10 +1,16 @@
 package com.example.mrz.newproject.model.dao;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.mrz.newproject.model.bean.CourseBean;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
+import com.example.mrz.newproject.model.db.MySqlHelper;
+import com.example.mrz.newproject.uitls.DBUtils;
 import com.example.mrz.newproject.uitls.OkHttpUitl;
 
 import org.jsoup.Jsoup;
@@ -21,9 +27,76 @@ import okhttp3.Response;
 
 public class CourseDao {
 
-    public static List<CourseBean>[] getCourseData(String url) throws IOException {
+    private static MySqlHelper sqlHelper;
+
+
+    /**
+     * 查看数据库是否有数据
+     *
+     * @param context 上下文
+     * @return
+     */
+    public static boolean isHaveCourse(Context context){
+
+        sqlHelper = DBUtils.getInstance(context);
+        //获取读的数据库
+        SQLiteDatabase db = sqlHelper.getReadableDatabase();
+
+        //获取记录总数
+        Cursor cursor = db.rawQuery("select * from Course", null);
+        cursor.moveToFirst();
+        long count = cursor.getCount();
+
+        cursor.close();
+        db.close();
+
+        if(count > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 从数据库查询数据
+     *
+     * @return
+     */
+    public static List<CourseBean>[] queryCourseData(){
 
         List<CourseBean> courseModels[] = new ArrayList[7];
+
+        for (int i = 0; i < courseModels.length; i++) {
+            courseModels[i] = new ArrayList<>();
+        }
+
+        SQLiteDatabase db = sqlHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from Course", null);
+
+        String arr[][] = new String[6][7];
+        int n = 0;
+        while(cursor.moveToNext()){
+            for(int j = 0;j < 7;j++){
+                //Log.d("body",cursor.getString(j));
+                arr[n][j] = cursor.getString(j);
+            }
+            n++;
+        }
+        for(int i = 0;i < courseModels.length;i++){
+            String[] comArr = new String[6];
+            for(int j = 0;j < 6;j++){
+                comArr[j] = arr[j][i];
+            }
+            courseModels[i].addAll(getItem(comArr));
+        }
+
+        return courseModels;
+
+    }
+
+    //从网络获取课表信息并插入到数据库
+    public static void getCourseData(String url) throws IOException {
+
 
         //拼接首页地址
         String main_url = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.mainUrl + "?xh=" + User.xh;
@@ -45,69 +118,50 @@ public class CourseDao {
         //获取所有行的内容
         Elements trs = doc.getElementById("Table1").select("tr");
 
-        for (int i = 0; i < courseModels.length; i++) {
-            courseModels[i] = new ArrayList<>();
-        }
+        SQLiteDatabase db = sqlHelper.getWritableDatabase();
+
+
 
         //第一列的数据
         String[] arr = new String[6];
-        for (int i = 0;i < courseModels.length;i++){
-            arr[0] = trs.get(2).select("td").get(2+i).text();
+        for (int i = 1;i < 7;i++){
+            /*arr[0] = trs.get(2).select("td").get(2+i).text();
             arr[1] = trs.get(4).select("td").get(1+i).text();
             arr[2] = trs.get(6).select("td").get(2+i).text();
             arr[3] = trs.get(8).select("td").get(1+i).text();
             arr[4] = trs.get(10).select("td").get(2+i).text();
             arr[5] = trs.get(12).select("td").get(1+i).text();
-            courseModels[i].addAll(getItem(arr));
+            courseModels[i].addAll(getItem(arr));*/
+            if(i % 2!=0){
+                ContentValues values = new ContentValues();
+                values.put("monday",trs.get(i*2).select("td").get(2).text());
+                values.put("Tuesday",trs.get(i*2).select("td").get(3).text());
+                values.put("Wednesday",trs.get(i*2).select("td").get(4).text());
+                values.put("Thursday",trs.get(i*2).select("td").get(5).text());
+                values.put("Friday",trs.get(i*2).select("td").get(6).text());
+                values.put("Saturday",trs.get(i*2).select("td").get(7).text());
+                values.put("sunday",trs.get(i*2).select("td").get(8).text());
+                db.insert("Course",null,values);
+            }else{
+                ContentValues values = new ContentValues();
+                values.put("monday",trs.get(i*2).select("td").get(1).text());
+                values.put("Tuesday",trs.get(i*2).select("td").get(2).text());
+                values.put("Wednesday",trs.get(i*2).select("td").get(3).text());
+                values.put("Thursday",trs.get(i*2).select("td").get(4).text());
+                values.put("Friday",trs.get(i*2).select("td").get(5).text());
+                values.put("Saturday",trs.get(i*2).select("td").get(6).text());
+                values.put("sunday",trs.get(i*2).select("td").get(7).text());
+                db.insert("Course",null,values);
+            }
         }
-        /*arr[0] = (trs.get(2).select("td").get(2).text());
-        arr[1] = trs.get(4).select("td").get(1).text();
-        arr[2] = trs.get(6).select("td").get(2).text();
-        arr[3] = trs.get(8).select("td").get(1).text();
-        arr[4] = trs.get(10).select("td").get(2).text();
-        arr[5] = trs.get(11).select("td").get(1).text();
 
+        db.close();
 
-
-
-        arr = new String[6];
-        arr[0] = (trs.get(2).select("td").get(3).text());
-        arr[1] = trs.get(4).select("td").get(2).text();
-        arr[2] = trs.get(6).select("td").get(3).text();
-        arr[3] = trs.get(8).select("td").get(4).text();
-        arr[4] = trs.get(10).select("td").get(5).text();
-        arr[5] = trs.get(11).select("td").get(6).text();
-
-
-
-        List<CourseBean> models_2 = new ArrayList<>();
+        /*List<CourseBean> models_2 = new ArrayList<>();
         models_2.add(new CourseBean(3, "Swift", 3, 2, 2, "A222", (int) (Math.random() * 10)));
         models_2.add(new CourseBean(3, "JavaScript", 5, 2, 2, "A777", (int) (Math.random() * 10)));
-        courseModels[1].addAll(models_2);
+        courseModels[1].addAll(models_2);*/
 
-        List<CourseBean> models_3 = new ArrayList<>();
-        models_3.add(new CourseBean(3, "Python", 1, 2, 3, "A342", (int) (Math.random() * 10)));
-        models_3.add(new CourseBean(3, "Visual Basic .NET", 3, 2, 3, "A737", (int) (Math.random() * 10)));
-        courseModels[2].addAll(models_3);
-
-        List<CourseBean> models_4 = new ArrayList<>();
-        models_4.add(new CourseBean(4, "C#", 1, 2, 4, "A666", (int) (Math.random() * 10)));
-        models_4.add(new CourseBean(5, "R语言", 7, 2,4, "A888", (int) (Math.random() * 10)));
-        models_4.add(new CourseBean(5, "Java", 9, 2, 4, "A828", (int) (Math.random() * 10)));
-        courseModels[3].addAll(models_4);
-
-        List<CourseBean> models_5 = new ArrayList<>();
-        models_5.add(new CourseBean(6, "Android", 1, 2, 5, "A466", (int) (Math.random() * 10)));
-        models_5.add(new CourseBean(7, "Groovy", 3, 2, 5, "A434", (int) (Math.random() * 10)));
-        models_5.add(new CourseBean(8, "Objective-C", 5, 2, 5, "A411", (int) (Math.random() * 10)));
-        courseModels[4].addAll(models_5);
-
-        List<CourseBean> models_6 = new ArrayList<>();
-        models_6.add(new CourseBean(9, "C++", 1, 2, 6, "A422", (int) (Math.random() * 10)));
-        models_6.add(new CourseBean(10, "SQL", 7, 2, 6, "A402", (int) (Math.random() * 10)));
-        courseModels[5].addAll(models_6);*/
-
-        return courseModels;
 
     }
 

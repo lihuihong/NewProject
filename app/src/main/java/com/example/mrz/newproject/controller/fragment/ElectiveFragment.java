@@ -133,7 +133,7 @@ public class ElectiveFragment extends Fragment {
                     //获取课表
                     classes = SelectClassDao.getAllClass(url);
 
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

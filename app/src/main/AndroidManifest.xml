@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.mrz.newproject">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    package="com.example.mrz.newproject">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controller.activity.MainActivity">
-
-        </activity>
+        <activity android:name=".controller.activity.MainActivity"></activity>
         <activity
             android:name=".controller.activity.LoginActivity"
             android:theme="@style/ImageTranslucentTheme">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
 
         </activity>
         <activity android:name=".controller.activity.ElectiveActivity" />
@@ -30,14 +23,20 @@
         <activity android:name=".controller.activity.ConsumptionActivity" />
         <activity android:name=".controller.activity.LossActivity" />
         <activity android:name=".controller.activity.EvaluationActivity" />
-        <activity android:name=".controller.activity.TuitionActivity" />
         <activity android:name=".controller.activity.UserInfoActivity" />
         <activity android:name=".controller.activity.OpinionActivity" />
         <activity android:name=".controller.activity.QqActivity" />
         <activity android:name=".controller.activity.DocumentActivity" />
         <activity android:name=".controller.activity.SettingActivity" />
         <activity android:name=".controller.activity.ScoreQueryActivity" />
-        <activity android:name=".controller.activity.ScoreSelectActivity"></activity>
+        <activity android:name=".controller.activity.ScoreSelectActivity" />
+        <activity android:name=".controller.activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

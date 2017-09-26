@@ -1,13 +1,19 @@
 package com.example.mrz.newproject.controller.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.controller.activity.BalanceActivity;
@@ -19,8 +25,11 @@ import com.example.mrz.newproject.controller.activity.ScoreSelectActivity;
 import com.example.mrz.newproject.model.bean.Consume;
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
+import com.example.mrz.newproject.model.dao.EcardDao;
 import com.example.mrz.newproject.model.dao.GSUserInfoDao;
+import com.example.mrz.newproject.model.dao.LoginDao;
 import com.example.mrz.newproject.uitls.OkHttpUitl;
+import com.example.mrz.newproject.view.animation.CircleProgress;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -51,8 +60,9 @@ import static com.example.mrz.newproject.R.id.tv_balance;
  * 作用：选课
  */
 
-public class StudentFragment extends Fragment {
+public class StudentFragment extends ViewPagerFragment {
 
+    private static final int LOGIN_SUCCED = 0X111111;
     //余额查询
     @BindView(tv_balance)
     LinearLayout mTv_balance;
@@ -75,9 +85,22 @@ public class StudentFragment extends Fragment {
     View view;
     private Intent mIntent;
 
-    private List<Consume> mConsumes = new ArrayList<>();
+    private Context context;
 
-    Map<String, String> postDatas = new HashMap<>(); //post提交数据
+    /** 标志位，标志已经初始化完成 */
+    private boolean isPrepared;
+    /** 是否已被加载过一次，第二次就不再去请求数据了 */
+    private boolean mHasLoadedOnce;
+
+    private Handler mHandler;
+
+    @BindView(R.id.ll_progress)
+    LinearLayout ll_progress;
+    @BindView(R.id.progress)
+    CircleProgress progress;
+
+    @BindView(R.id.ll_main)
+    LinearLayout ll_main;
 
     @Nullable
     @Override
@@ -85,9 +108,10 @@ public class StudentFragment extends Fragment {
 
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_student, null);
+            context = getContext();
             ButterKnife.bind(this, view);
-//            ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-//            setHasOptionsMenu(true);
+            isPrepared = true;
+            lazyLoad();
         }
 
         return view;
@@ -95,132 +119,19 @@ public class StudentFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if (User.getId() == null) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //个人信息url地址
-                    String getUserInfoUrl = UrlBean.IP + "/" + UrlBean.sessionId + "/" + UrlBean.userInfoUrl + "?xh=" + User.xh + "&xm=" + User.xm + "&gnmkdm=" + UrlBean.userInfoCode;
-                    try {
-                        GSUserInfoDao.getbasicInfo(GSUserInfoDao.getAllUserInfo(getUserInfoUrl));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
 
-                    //获取验证码
-                    getcode();
-                    //登录一卡通
-                    login();
-
-
-                }
-            }).start();
-        }
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                progress.stopAnim();
+                ll_progress.setVisibility(View.GONE);
+                ll_main.setVisibility(View.VISIBLE);
+            }
+        };
 
         super.onActivityCreated(savedInstanceState);
     }
 
-    protected void onFragmentVisibleChange(boolean isVisible) {
-        if (isVisible) {
-
-        } else {
-            //        setRefresh(false);
-        }
-    }
-
-    private void login() {
-        postDatas.put("UserLogin:txtUser", User.getXh());
-        //Log.i("用户", "login: " + User.getXh());
-        postDatas.put("UserLogin:txtPwd", User.getId());
-        //Log.i("密码", "login: " + User.getId());
-
-        postDatas.put("__EVENTTARGET", "");
-        postDatas.put("__LASTFOCUS", "");
-        postDatas.put("__EVENTARGUMENT", "");
-        postDatas.put("UserLogin:ImageButton1.x", "27");
-        postDatas.put("UserLogin:ImageButton1.y", "5");
-        try {
-            postDatas.put("UserLogin:ddlPerson", URLEncoder.encode("卡户", "GBK"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        String parma = "";
-
-        for (Iterator<Map.Entry<String, String>> it = postDatas.entrySet().iterator(); it.hasNext(); ) {
-            Map.Entry entry = it.next();
-            parma += entry.getKey() + "=" + entry.getValue();
-            if (it.hasNext())
-                parma += "&";
-        }
-        final String replace = parma.replace(":", "%3a").replace("+", "%2b");
-
-        RequestBody requestBody = null;
-        try {
-            requestBody = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=gb2312"), new String(replace.getBytes(), "GBK"));
-            Request request = new Request.Builder().url(UrlBean.ECARDURL).removeHeader("User-Agent")
-                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
-                    .post(requestBody).build();
-
-            Response rsp = OkHttpUitl.getInstance().newCall(request).execute();
-            String data = rsp.body().string();
-
-            if (rsp.code() == 302 && data != null) {
-
-                //Log.i("返回码", "login: "+rsp.code() + data);
-                intiData();
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void intiData() {
-        new Thread(){
-            @Override
-            public void run() {
-                Request res = new Request.Builder().url("http://ecard.cqcet.edu.cn/default.aspx").get().build();
-                try {
-                    Response rsp = OkHttpUitl.getInstance().newCall(res).execute();
-                    if(rsp.isSuccessful()){
-                        String data = rsp.body().string();
-                        //Log.d("record","record执行成功" +data);
-
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }.start();
-    }
-
-    private void getcode() {
-        Request request = new Request.Builder().url(UrlBean.ECARDURL).get().build();
-        try {
-            Response rsp = OkHttpUitl.getInstance().newCall(request).execute();
-            if (rsp.isSuccessful()) {
-                String data = rsp.body().string();
-                Document document = Jsoup.parse(data);
-                Element viewstate = document.select("input[name=\"__VIEWSTATE\"]").first();
-                Element eventvalidation = document.select("input[name=\"__EVENTVALIDATION\"]").first();
-                String UserLogin_ImgFirst = (String) document.getElementById("UserLogin_ImgFirst").attr("src").subSequence(7,8);
-                String UserLogin_imgSecond = (String) document.getElementById("UserLogin_imgSecond").attr("src").subSequence(7,8);
-                String UserLogin_imgThird = (String) document.getElementById("UserLogin_imgThird").attr("src").subSequence(7,8);
-                String UserLogin_imgFour = (String) document.getElementById("UserLogin_imgFour").attr("src").subSequence(7,8);
-                String num = UserLogin_ImgFirst + UserLogin_imgSecond + UserLogin_imgThird + UserLogin_imgFour;
-                postDatas.put("__VIEWSTATE", viewstate.attr("value"));
-                postDatas.put("__EVENTVALIDATION", eventvalidation.attr("value"));
-                postDatas.put("UserLogin:txtSure",num);
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     //监听事件
     @OnClick({tv_balance, R.id.tv_consumption, R.id.tv_loss, R.id.tv_elective,
@@ -262,4 +173,42 @@ public class StudentFragment extends Fragment {
     }
 
 
+    @Override
+    protected void lazyLoad() {
+        if (!isPrepared || !isVisible || mHasLoadedOnce) {
+            return;
+        }
+
+        progress.startAnim();
+
+        //如果没登录就登录教务系统
+        new Thread(){
+            @Override
+            public void run() {
+
+                //获取本地储存,查看是否有用户登录
+                SharedPreferences pref = context.getSharedPreferences("userInfoData", context.MODE_PRIVATE);
+                String name = pref.getString("userName","");
+                String eardpwd = pref.getString("eardpwd","");
+
+                if(!LoginDao.isLogin){
+                    //教务系统密码
+                    final String pwd = pref.getString("passWord", "");
+                    try {
+                        LoginDao.login(context,name,pwd);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                try {
+                    EcardDao.login(name,eardpwd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mHandler.sendEmptyMessage(LOGIN_SUCCED);
+            }
+        }.start();
+
+        mHasLoadedOnce = true;
+    }
 }
