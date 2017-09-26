@@ -3,9 +3,12 @@ package com.example.mrz.newproject.controller.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -195,8 +198,16 @@ public class MyFragment extends Fragment {
                 break;
             //加入QQ群
             case R.id.ll_qq:
-                mIntent = new Intent(getActivity(), QqActivity.class);
-                startActivity(mIntent);
+
+                if(isQQClientAvailable(context)){
+                    String url = "mqqwpa://im/chat?chat_type=wpa&uin=1261161486";
+                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                }else{
+                    Toast.makeText(context, "您的手机暂未安装QQ客户端", Toast.LENGTH_SHORT).show();
+                }
+
+//                mIntent = new Intent(getActivity(), QqActivity.class);
+//                startActivity(mIntent);
                 break;
             //免费声明
             case R.id.ll_document:
@@ -209,6 +220,25 @@ public class MyFragment extends Fragment {
                 startActivity(mIntent);
                 break;
         }
+    }
+
+    /**
+     * 判断qq是否可用
+     * @param context
+     * @return
+     */
+    public static boolean isQQClientAvailable(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
