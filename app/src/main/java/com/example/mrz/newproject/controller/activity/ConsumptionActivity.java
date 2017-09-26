@@ -3,8 +3,12 @@ package com.example.mrz.newproject.controller.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.example.mrz.newproject.R;
+import com.example.mrz.newproject.controller.adapter.ConRecylerAdapter;
+import com.example.mrz.newproject.model.bean.Consume;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -18,6 +22,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +32,10 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
     @BindView(R.id.pie_chart)
     PieChart mPieChart;
 
+    @BindView(R.id.rl_data)
+    RecyclerView mRecyclerView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +44,19 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
         ButterKnife.bind(this);
         //初始化圆饼图
         intiView();
+        initData();
+    }
+
+    private void initData() {
+
+        //获取传递过来的数据
+        List<Consume> mConsumesList = (List<Consume>) getIntent().getSerializableExtra("consumes");
+
+        //用线性显示 类似于listview
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //设置数据适配器
+        mRecyclerView.setAdapter(new ConRecylerAdapter(this, mConsumesList));
+
     }
 
     private void intiView() {

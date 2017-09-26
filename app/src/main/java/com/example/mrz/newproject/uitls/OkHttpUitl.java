@@ -1,5 +1,7 @@
 package com.example.mrz.newproject.uitls;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 
 /**
@@ -20,6 +22,8 @@ public class OkHttpUitl{
             synchronized (OkHttpUitl.class){
                 if(okHttpClient == null) {
                     OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                    builder.connectTimeout(10, TimeUnit.SECONDS);
+                    builder.readTimeout(20, TimeUnit.SECONDS);
                     builder.followRedirects(false);
                     builder.cookieJar(new MyCookieJar());
                     okHttpClient = builder.build();

@@ -29,76 +29,89 @@ import okhttp3.Response;
 
 public class QueryDataDao {
 
-    public static List<Consume> intiDa(final String ur) {
+    //余额
+    private static String mAccountNumber;
+    private static Consume mCs = new Consume();
+
+    //请求数据
+    public static List<Consume> intiDa(final String ur, final String ur1, final String month) {
         Calendar a = Calendar.getInstance();
         final String mYear = String.valueOf(a.get(Calendar.YEAR));
-        final String mMonth = String.valueOf(a.get(Calendar.MONTH) + 1);
         final List<Consume> mConsumes = new ArrayList<>();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Request res = new Request.Builder().url(ur).get().build();
-                try {
-                    Response rsp = OkHttpUitl.getInstance().newCall(res).execute();
-                    if (rsp.isSuccessful()) {
-                        Document doc = Jsoup.parse(rsp.body().string(), "GBK");
-                        String viewstate = doc.select("input[name=\"__VIEWSTATE\"]").first().attr("value");
-                        Log.d("__VIEWSTATE", "__VIEWSTATE" + viewstate);
-                        RequestBody requestBody = new FormBody.Builder()
-                                .add("__VIEWSTATE", viewstate)
-                                .add("ddlYear", mYear)
-                                .add("ddlMonth", mMonth)
-                                .add("txtMonth", mMonth)
-                                .add("ImageButton1.x", "22")
-                                .add("ImageButton1.y", "16").build();
-                        res = new Request.Builder().url(UrlBean.ECARD_QUERY_URL).post(requestBody).build();
+        Request res = new Request.Builder().url(ur).get().build();
+        Request res1 = new Request.Builder().url(ur1).get().build();
+        try {
+            Response rsp = OkHttpUitl.getInstance().newCall(res).execute();
+            Response rsp1 = OkHttpUitl.getInstance().newCall(res1).execute();
+            if (rsp.isSuccessful() || rsp1.isSuccessful()) {
+                Document doc = Jsoup.parse(rsp.body().string(), "GBK");
+                String viewstate = doc.select("input[name=\"__VIEWSTATE\"]").first().attr("value");
+                Log.d("__VIEWSTATE", "__VIEWSTATE" + viewstate);
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("__VIEWSTATE", viewstate)
+                        .add("ddlYear", mYear)
+                        .add("ddlMonth", month)
+                        .add("txtMonth", month)
+                        .add("ImageButton1.x", "22")
+                        .add("ImageButton1.y", "16").build();
+                res = new Request.Builder().url(UrlBean.ECARD_QUERY_URL).post(requestBody).build();
+                rsp = OkHttpUitl.getInstance().newCall(res).execute();
+                if (rsp.code() == 302) {
+                    String data = rsp.body().string();
+                    if (data.contains("QueryhistoryDetail")) {
+                        res = new Request.Builder().url(UrlBean.POST_QUERY_URL).get().build();
                         rsp = OkHttpUitl.getInstance().newCall(res).execute();
-                        if (rsp.code() == 302) {
-                            String data = rsp.body().string();
-                            if (data.contains("QueryhistoryDetail")) {
-                                res = new Request.Builder().url(UrlBean.POST_QUERY_URL).get().build();
-                                rsp = OkHttpUitl.getInstance().newCall(res).execute();
-                                data = rsp.body().string();
-                                doc = Jsoup.parse(data, "GBK");
-                                //Log.d("doc", data);
-                                //解析数据
-                                Elements trs;
-                                try {
-                                    trs = doc.getElementById("dgShow").select("tr");
-                                } catch (NullPointerException e) {
-                                    return;
-                                }
-                                for (int i = trs.size() - 1; i > 0; i--) {
-                                    Elements tds = trs.get(i).select("td");
-                                    Consume  mCs = new Consume();
-                                    mCs.setAddress(tds.get(4).text());
-                                    String priceNum = tds.get(7).text();
-                                    try {
-                                        priceNum = Long.parseLong(priceNum) > 0 ? "+" + priceNum : priceNum;
-
-                                    } catch (NumberFormatException e) {
-                                        e.printStackTrace();
-                                    }
-                                    mCs.setPrice(priceNum);
-                                    mCs.setDate(tds.get(8).text());
-                                    mConsumes.add(mCs);
-                                }
-                            }
-
-                        } else {
+                        data = rsp.body().string();
+                        doc = Jsoup.parse(data, "GBK");
+                        //Log.d("doc", data);
+                        //解析数据
+                        Elements trs;
+                        try {
+                            trs = doc.getElementById("dgShow").select("tr");
+                        } catch (NullPointerException e) {
+                            String data1 = rsp1.body().string();
+                            Document doc1 = Jsoup.parse(data1, "GBK");
+                            mAccountNumber = doc1.getElementById("lblOne0").text();
+                            mCs.setAccountNumber(mAccountNumber);
+                            mConsumes.add(mCs);
+                            return mConsumes;
                         }
+                        for (int i = trs.size() - 1; i > 0; i--) {
+                            Elements tds = trs.get(i).select("td");
+                            mCs.setAddress(tds.get(4).text());
+                            String priceNum = tds.get(7).text();
+                            try {
+                                priceNum = Long.parseLong(priceNum) > 0 ? "+" + priceNum : priceNum;
 
-                    } else {
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                            }
+                            mCs.setPrice(priceNum);
+                            mCs.setDate(tds.get(8).text());
+                            //将取到的数据加在list里面
+                            mConsumes.add(mCs);
+                        }
                     }
-                } catch (SocketTimeoutException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    //将取到的数据加在list里面
+                    String data1 = rsp1.body().string();
+                    Document doc1 = Jsoup.parse(data1, "GBK");
+                    mAccountNumber = doc1.getElementById("lblOne0").text();
+                    mCs.setAccountNumber(mAccountNumber);
+                    mConsumes.add(mCs);
+                } else {
+                    Log.i("code", "run: " + "sb");
                 }
-            }
-        }).start();
-        return mConsumes;
 
+            } else {
+                Log.i("code", "run: " + rsp.code() + "bs" + rsp1.code());
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mConsumes;
     }
 
 }

@@ -8,9 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.util.Base64;
-import android.util.Log;
 
 import com.example.mrz.newproject.model.bean.UrlBean;
 import com.example.mrz.newproject.model.bean.User;
@@ -24,7 +22,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -118,7 +115,7 @@ public class GSUserInfoDao {
 
        //将一卡通系统密码保存到本地
         SharedPreferences.Editor editor = context.getSharedPreferences("userInfoData", context.MODE_PRIVATE).edit();
-        editor.putString("eardpwd", id);
+        editor.putString("eardpwd", id.substring(id.length()-6));
         editor.apply();
 
         //手机号码

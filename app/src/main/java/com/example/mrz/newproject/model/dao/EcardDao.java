@@ -1,7 +1,8 @@
 package com.example.mrz.newproject.model.dao;
 
+import android.util.Log;
+
 import com.example.mrz.newproject.model.bean.UrlBean;
-import com.example.mrz.newproject.model.bean.User;
 import com.example.mrz.newproject.uitls.OkHttpUitl;
 
 import org.jsoup.Jsoup;
@@ -45,6 +46,8 @@ public class EcardDao {
                 .build();
         Response rsp = OkHttpUitl.getInstance().newCall(request).execute();
 
+        Log.d("body",rsp.body().string());
+
     }
 
     /**
@@ -53,10 +56,12 @@ public class EcardDao {
      * @return 登录链接
      */
     public static String postData(String name,String pwd){
+
         postDatas.put("UserLogin:txtUser", name);
-        //Log.i("用户", "login: " + User.getXh());
+        Log.i("用户", "login: " + name);
         postDatas.put("UserLogin:txtPwd", pwd);
-        //Log.i("密码", "login: " + User.getId());
+        Log.i("密码", "login: " + pwd);
+
 
         postDatas.put("__EVENTTARGET", "");
         postDatas.put("__LASTFOCUS", "");

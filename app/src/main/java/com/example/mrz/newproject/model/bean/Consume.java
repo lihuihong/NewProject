@@ -11,6 +11,16 @@ public class Consume implements Serializable {
     private String date;
     private String balance;
 
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    private String accountNumber;
+
     public String getType() {
         return type;
     }

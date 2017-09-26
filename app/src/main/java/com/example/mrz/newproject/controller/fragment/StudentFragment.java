@@ -7,50 +7,27 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.controller.activity.BalanceActivity;
-import com.example.mrz.newproject.controller.activity.ConsumptionActivity;
+import com.example.mrz.newproject.controller.activity.ConSelectActivity;
 import com.example.mrz.newproject.controller.activity.ElectiveActivity;
 import com.example.mrz.newproject.controller.activity.EvaluationActivity;
 import com.example.mrz.newproject.controller.activity.LossActivity;
 import com.example.mrz.newproject.controller.activity.ScoreSelectActivity;
-import com.example.mrz.newproject.model.bean.Consume;
-import com.example.mrz.newproject.model.bean.UrlBean;
-import com.example.mrz.newproject.model.bean.User;
 import com.example.mrz.newproject.model.dao.EcardDao;
-import com.example.mrz.newproject.model.dao.GSUserInfoDao;
 import com.example.mrz.newproject.model.dao.LoginDao;
-import com.example.mrz.newproject.uitls.OkHttpUitl;
 import com.example.mrz.newproject.view.animation.CircleProgress;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 import static com.example.mrz.newproject.R.id.tv_balance;
 
@@ -145,7 +122,7 @@ public class StudentFragment extends ViewPagerFragment {
                 break;
             //消费情况查询
             case R.id.tv_consumption:
-                mIntent = new Intent(getActivity(), ConsumptionActivity.class);
+                mIntent = new Intent(getActivity(), ConSelectActivity.class);
                 startActivity(mIntent);
                 break;
             //一键挂失
