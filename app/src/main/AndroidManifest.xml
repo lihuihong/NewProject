@@ -30,6 +30,7 @@
         <activity android:name=".controller.activity.SettingActivity" />
         <activity android:name=".controller.activity.ScoreQueryActivity" />
         <activity android:name=".controller.activity.ScoreSelectActivity" />
+        <activity android:name=".controller.activity.ConSelectActivity"/>
         <activity android:name=".controller.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

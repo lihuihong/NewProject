@@ -44,7 +44,6 @@ public class ConRecylerAdapter extends RecyclerView.Adapter<ConRecylerAdapter.Vi
         holder.tv_place.setText(mConsume.get(position).getAddress());
         holder.tv_date.setText(mConsume.get(position).getDate());
         holder.tv_money.setText(mConsume.get(position).getBalance());
-
     }
 
 
