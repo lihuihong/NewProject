@@ -12,8 +12,6 @@ import com.example.mrz.newproject.model.bean.Consume;
 
 import java.util.List;
 
-import static com.example.mrz.newproject.model.dao.GSUserInfoDao.context;
-
 /**
  * Created by 那个谁 on 2017/9/26.
  * 奥特曼打小怪兽
@@ -33,7 +31,7 @@ public class ConRecylerAdapter extends RecyclerView.Adapter<ConRecylerAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 实例化展示的view
-        View view = LayoutInflater.from(context).inflate(R.layout.con_item,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.con_item,parent,false);
         // 实例化viewholder
         return new ConRecylerAdapter.ViewHolder(view);
     }

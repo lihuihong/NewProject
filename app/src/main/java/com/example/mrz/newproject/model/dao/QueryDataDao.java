@@ -32,18 +32,31 @@ public class QueryDataDao {
     //余额
     private static String mAccountNumber;
     private static Consume mCs;
+    private static List<Consume> mConsumes;
+    private static Request res1;
+    private static String mData1;
 
     //请求数据
     public static List<Consume> intiDa(final String ur,final String ur1,final String month) {
         Calendar a = Calendar.getInstance();
         final String mYear = String.valueOf(a.get(Calendar.YEAR));
-        final List<Consume> mConsumes = new ArrayList<>();
+        mConsumes = new ArrayList<>();
         Request res = new Request.Builder().url(ur).get().build();
-        Request res1 = new Request.Builder().url(ur1).get().build();
+        if (ur1!=null){
+            Request res1 = new Request.Builder().url(ur1).get().build();
+            try {
+                Response rsp1 = OkHttpUitl.getInstance().newCall(res1).execute();
+                if (rsp1.isSuccessful()){
+                    mData1 = rsp1.body().string();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+        }
         try {
             Response rsp = OkHttpUitl.getInstance().newCall(res).execute();
-            Response rsp1 = OkHttpUitl.getInstance().newCall(res1).execute();
-            if (rsp.isSuccessful() || rsp1.isSuccessful()) {
+            if (rsp.isSuccessful()) {
                 Document doc = Jsoup.parse(rsp.body().string(), "GBK");
                 String viewstate = doc.select("input[name=\"__VIEWSTATE\"]").first().attr("value");
                 Log.d("__VIEWSTATE", "__VIEWSTATE" + viewstate);
@@ -69,13 +82,15 @@ public class QueryDataDao {
                         try {
                             trs = doc.getElementById("dgShow").select("tr");
                         } catch (NullPointerException e) {
-                            mCs = new Consume();
-                            String data1 = rsp1.body().string();
-                            Document doc1 = Jsoup.parse(data1, "GBK");
-                            mAccountNumber = doc1.getElementById("lblOne0").text();
-                            mCs.setAccountNumber(mAccountNumber);
-                            mConsumes.add(mCs);
-                            return mConsumes;
+                            if (mData1!=null){
+                                mCs = new Consume();
+                                Document doc1 = Jsoup.parse(mData1, "GBK");
+                                mAccountNumber = doc1.getElementById("lblOne0").text();
+                                mCs.setAccountNumber(mAccountNumber);
+                                mConsumes.add(mCs);
+                                return mConsumes;
+                            }
+                            return null;
                         }
                         for (int i = trs.size() - 1; i > 0; i--) {
                             mCs = new Consume();
@@ -96,11 +111,13 @@ public class QueryDataDao {
                         //Log.i("数据", "intiDa: " + mConsumes.get(5).getAddress());
 
                     }
-                    String data1 = rsp1.body().string();
-                    Document doc1 = Jsoup.parse(data1, "GBK");
-                    mAccountNumber = doc1.getElementById("lblOne0").text();
-                    mCs.setAccountNumber(mAccountNumber);
-                    mConsumes.add(mCs);
+                    if (mData1!=null){
+                        Document doc1 = Jsoup.parse(mData1, "GBK");
+                        mAccountNumber = doc1.getElementById("lblOne0").text();
+                        mCs.setAccountNumber(mAccountNumber);
+                        mConsumes.add(mCs);
+                    }
+
                 } else {
                     //Log.i("code", "run: " + "sb");
                 }
@@ -114,6 +131,48 @@ public class QueryDataDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return mConsumes;
+    }
+
+    public static List<Consume> intiToady(String url) {
+        mConsumes = new ArrayList<>();
+        Request res = new Request.Builder().url(url).get().build();
+        Response rsp = null;
+        try {
+            rsp = OkHttpUitl.getInstance().newCall(res).execute();
+            if (rsp.isSuccessful()){
+                String data = rsp.body().string();
+                Document doc  = Jsoup.parse(data, "GBK");
+                //解析数据
+                Elements trs;
+                try {
+                    trs = doc.getElementById("dgShow").select("tr");
+                } catch (NullPointerException e) {
+                    Log.i("啊撇1", "intiToady: ");
+                    return null;
+                }
+                for (int i = trs.size() - 1; i > 0; i--) {
+                    mCs = new Consume();
+                    Elements tds = trs.get(i).select("td");
+                    mCs.setAddress(tds.get(4).text());
+                    String priceNum = tds.get(7).text();
+                    try {
+                        priceNum = Integer.parseInt(priceNum) > 0 ? "+" + priceNum : priceNum;
+
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                    mCs.setPrice(priceNum);
+                    mCs.setDate(tds.get(8).text());
+                    mCs.setBalance(tds.get(10).text());
+                    mConsumes.add(mCs);
+                    Log.i("啊撇2", "intiToady: "+mConsumes.get(0).getAddress());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return mConsumes;
     }
 

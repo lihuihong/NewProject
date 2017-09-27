@@ -49,6 +49,7 @@ public class UrlBean {
 
 
     public final static String POST_QUERY_URL = "http://ecard.cqcet.edu.cn/Cardholder/QueryhistoryDetailFrame.aspx";
+    public final static String POST_QUERY_URL_TODAY = "http://ecard.cqcet.edu.cn/Cardholder/QueryCurrDetailFrame.aspx";
 
     //成绩查询
     public static String scoreUrl = "xscjcx.aspx";

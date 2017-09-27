@@ -9,7 +9,6 @@
 
     <include layout="@layout/layout_toolbar"/>
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rl_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -139,6 +138,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -154,7 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="好吃懒做.."
+            android:text="好吃懒做..."
             android:textSize="15sp"/>
 
     </LinearLayout>

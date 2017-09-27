@@ -1,5 +1,6 @@
 package com.example.mrz.newproject.controller.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -98,12 +99,15 @@ public class BalanceActivity extends AppCompatActivity {
     private final int GET_FAILED = 0X111;
 
     Calendar a = Calendar.getInstance();
+
+    private Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
         ButterKnife.bind(this);
-        //初始化toobar
+        mContext = getApplication();
         initToolBar();
         progress.startAnim();
         mHandler = new Handler() {
@@ -175,11 +179,13 @@ public class BalanceActivity extends AppCompatActivity {
     //设置消费记录数据
     private void getQueryhistory() {
         for (int i = 0; i < mConsumes.size(); i++) {
+            //Log.i("数据", "run getQueryhistory: " + mConsumes.get(i).getAddress());
             if (i == 0) {
                 Consume cos = mConsumes.get(i);
                 mTv_morning.setText(cos.getDate());
                 mTv_moneyone.setText(cos.getPrice());
                 mTv_placeone.setText(cos.getAddress());
+                //Log.i("时间", "run getQueryhistory: " + cos.getDate());
             } else if (i == 1) {
                 Consume cos = mConsumes.get(i);
                 mTv_noon.setText(cos.getDate());
@@ -205,7 +211,7 @@ public class BalanceActivity extends AppCompatActivity {
         final AlertDialog.Builder normalDialog =
                 new AlertDialog.Builder(BalanceActivity.this);
         normalDialog.setIcon(R.drawable.emoji);
-        normalDialog.setTitle("呜呜呜呜");
+        normalDialog.setTitle("呜呜呜呜.");
         normalDialog.setMessage("网络开小差了。。。");
         normalDialog.setCancelable(false);
         normalDialog.setPositiveButton("重试",
@@ -224,7 +230,7 @@ public class BalanceActivity extends AppCompatActivity {
                         finish();
                     }
                 });
-        // 显示对话框
+        // 显示动画
         normalDialog.show();
 
     }

@@ -24,6 +24,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,8 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
     TextView toolbar_title;
     @BindView(R.id.toolbar_more)
     ImageView toolbar_more;
+    @BindView(R.id.tv_error)
+    TextView mTv_err;
 
     private List<Consume> mConsumesList;
     //消费
@@ -65,7 +68,6 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
         initData();
         //初始化圆饼图
         intiView();
-
 
     }
 
@@ -161,30 +163,41 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
         //变化监听
         mPieChart.setOnChartValueSelectedListener(this);
 
-        for (int i = 0; i < mConsumesList.size(); i++) {
-            Double max = Double.valueOf(mConsumesList.get(i).getPrice());
-            if (max < 0) {
-                mCount += max;
-            } else {
-                mBalance += max;
+        if (mConsumesList.size()==1 || mConsumesList.size()>1) {
+            for (int i = 0; i < mConsumesList.size(); i++) {
+                BigDecimal bd = new BigDecimal(mConsumesList.get(i).getPrice());
+                int max = bd.intValue();
+                if (max < 0) {
+                    mCount += max;
+                } else {
+                    mBalance += max;
+                }
+                mTv_money.setText(mCount + "");
+                //模拟数据
+                ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+                if (mConsumesList.get(mConsumesList.size() - 1).getAccountNumber() != null) {
+                    entries.add(new PieEntry(Float.parseFloat((mConsumesList.get(mConsumesList.size() - 1).getAccountNumber())), "余额"));
+                } else {
+                    entries.add(new PieEntry(Float.parseFloat((mConsumesList.get(mConsumesList.size() - 1).getBalance())), "余额"));
+                }
+                entries.add(new PieEntry(mCount, "消费"));
+                if (mBalance != 0) {
+                    entries.add(new PieEntry(mBalance, "充值"));
+                } else {
+                    //entries.add(new PieEntry(0, "充值"));
+                }
+                //设置数据
+                setData(entries);
             }
+        } else {
+            mTv_err.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
         }
-        mTv_money.setText(mCount + "");
-        //模拟数据
-        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
-        entries.add(new PieEntry(Float.parseFloat((mConsumesList.get(mConsumesList.size() - 1).getAccountNumber())), "余额"));
-        entries.add(new PieEntry(mCount, "消费"));
-        entries.add(new PieEntry(mBalance, "充值"));
-        //设置数据
-        setData(entries);
-        mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
 
-
+        mPieChart.animateY(800, Easing.EasingOption.EaseInCirc);
         // 输入标签样式
         mPieChart.setEntryLabelColor(Color.WHITE);
         mPieChart.setEntryLabelTextSize(12f);
-
-
     }
 
     //设置数据
@@ -229,6 +242,7 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
     public void onNothingSelected() {
 
     }
+
     //初始化标题栏
     private void initToolBar() {
         toolbar_iv.setOnClickListener(new View.OnClickListener() {
