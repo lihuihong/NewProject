@@ -26,8 +26,8 @@ public class ConRecylerAdapter extends RecyclerView.Adapter<ConRecylerAdapter.Vi
     private List<Consume> mConsume;
 
     public ConRecylerAdapter(Context context, List<Consume> consume) {
-        mContext = context;
-        mConsume = consume;
+       this.mContext = context;
+        this.mConsume = consume;
     }
 
     @Override
@@ -35,15 +35,14 @@ public class ConRecylerAdapter extends RecyclerView.Adapter<ConRecylerAdapter.Vi
         // 实例化展示的view
         View view = LayoutInflater.from(context).inflate(R.layout.con_item,parent,false);
         // 实例化viewholder
-
-        return new ViewHolder(view);
+        return new ConRecylerAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.tv_place.setText(mConsume.get(position).getAddress());
         holder.tv_date.setText(mConsume.get(position).getDate());
-        holder.tv_money.setText(mConsume.get(position).getBalance());
+        holder.tv_money.setText(mConsume.get(position).getPrice());
     }
 
 
@@ -51,7 +50,7 @@ public class ConRecylerAdapter extends RecyclerView.Adapter<ConRecylerAdapter.Vi
     public int getItemCount() {
         return mConsume.size();
     }
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
         //地点
         TextView tv_place;
         //时间

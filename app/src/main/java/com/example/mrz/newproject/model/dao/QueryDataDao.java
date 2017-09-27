@@ -31,10 +31,10 @@ public class QueryDataDao {
 
     //余额
     private static String mAccountNumber;
-    private static Consume mCs = new Consume();
+    private static Consume mCs;
 
     //请求数据
-    public static List<Consume> intiDa(final String ur, final String ur1, final String month) {
+    public static List<Consume> intiDa(final String ur,final String ur1,final String month) {
         Calendar a = Calendar.getInstance();
         final String mYear = String.valueOf(a.get(Calendar.YEAR));
         final List<Consume> mConsumes = new ArrayList<>();
@@ -69,6 +69,7 @@ public class QueryDataDao {
                         try {
                             trs = doc.getElementById("dgShow").select("tr");
                         } catch (NullPointerException e) {
+                            mCs = new Consume();
                             String data1 = rsp1.body().string();
                             Document doc1 = Jsoup.parse(data1, "GBK");
                             mAccountNumber = doc1.getElementById("lblOne0").text();
@@ -77,33 +78,35 @@ public class QueryDataDao {
                             return mConsumes;
                         }
                         for (int i = trs.size() - 1; i > 0; i--) {
+                            mCs = new Consume();
                             Elements tds = trs.get(i).select("td");
                             mCs.setAddress(tds.get(4).text());
                             String priceNum = tds.get(7).text();
                             try {
-                                priceNum = Long.parseLong(priceNum) > 0 ? "+" + priceNum : priceNum;
+                                priceNum = Integer.parseInt(priceNum) > 0 ? "+" + priceNum : priceNum;
 
                             } catch (NumberFormatException e) {
                                 e.printStackTrace();
                             }
                             mCs.setPrice(priceNum);
                             mCs.setDate(tds.get(8).text());
-                            //将取到的数据加在list里面
+                            mCs.setBalance(tds.get(10).text());
                             mConsumes.add(mCs);
                         }
+                        //Log.i("数据", "intiDa: " + mConsumes.get(5).getAddress());
+
                     }
-                    //将取到的数据加在list里面
                     String data1 = rsp1.body().string();
                     Document doc1 = Jsoup.parse(data1, "GBK");
                     mAccountNumber = doc1.getElementById("lblOne0").text();
                     mCs.setAccountNumber(mAccountNumber);
                     mConsumes.add(mCs);
                 } else {
-                    Log.i("code", "run: " + "sb");
+                    //Log.i("code", "run: " + "sb");
                 }
 
             } else {
-                Log.i("code", "run: " + rsp.code() + "bs" + rsp1.code());
+                //Log.i("code", "run: " + rsp.code() +"bs" +rsp1.code());
             }
 
         } catch (SocketTimeoutException e) {

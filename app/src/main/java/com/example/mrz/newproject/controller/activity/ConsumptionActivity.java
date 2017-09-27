@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.mrz.newproject.R;
 import com.example.mrz.newproject.controller.adapter.ConRecylerAdapter;
@@ -35,6 +38,22 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
     @BindView(R.id.rl_data)
     RecyclerView mRecyclerView;
 
+    @BindView(R.id.tv_con)
+    TextView mTv_money;
+
+    //标题
+    @BindView(R.id.toolbar_iv)
+    ImageView toolbar_iv;
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
+    @BindView(R.id.toolbar_more)
+    ImageView toolbar_more;
+
+    private List<Consume> mConsumesList;
+    //消费
+    private int mCount;
+    //余额
+    private int mBalance;
 
 
     @Override
@@ -42,15 +61,18 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consumption);
         ButterKnife.bind(this);
+        initToolBar();
+        initData();
         //初始化圆饼图
         intiView();
-        initData();
+
+
     }
 
     private void initData() {
 
         //获取传递过来的数据
-        List<Consume> mConsumesList = (List<Consume>) getIntent().getSerializableExtra("consumes");
+        mConsumesList = (List<Consume>) getIntent().getSerializableExtra("consumes");
 
         //用线性显示 类似于listview
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,7 +85,7 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
         /**
          * 是否使用百分比
          */
-        mPieChart.setUsePercentValues(true);
+        //mPieChart.setUsePercentValues(true);
         mPieChart.setEnabled(false);
         /**
          * 圆环距离屏幕的距离
@@ -74,7 +96,7 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
         /**
          * 设置圆环中间的文字
          */
-        mPieChart.setCenterText("缴费记录");
+        //mPieChart.setCenterText("");
 
         /**
          * 是否显示圆环中间的洞
@@ -126,7 +148,7 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
         /**
          * 是否显示洞中间文本
          */
-        mPieChart.setDrawCenterText(true);
+        mPieChart.setDrawCenterText(false);
 
         mPieChart.setRotationAngle(0);
         /**
@@ -139,16 +161,22 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
         //变化监听
         mPieChart.setOnChartValueSelectedListener(this);
 
+        for (int i = 0; i < mConsumesList.size(); i++) {
+            Double max = Double.valueOf(mConsumesList.get(i).getPrice());
+            if (max < 0) {
+                mCount += max;
+            } else {
+                mBalance += max;
+            }
+        }
+        mTv_money.setText(mCount + "");
         //模拟数据
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
-        entries.add(new PieEntry(40, "优秀"));
-        entries.add(new PieEntry(20, "满分"));
-        entries.add(new PieEntry(30, "及格"));
-        entries.add(new PieEntry(10, "不及格"));
-
+        entries.add(new PieEntry(Float.parseFloat((mConsumesList.get(mConsumesList.size() - 1).getAccountNumber())), "余额"));
+        entries.add(new PieEntry(mCount, "消费"));
+        entries.add(new PieEntry(mBalance, "充值"));
         //设置数据
         setData(entries);
-
         mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
 
 
@@ -167,16 +195,13 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
 
         //数据和颜色
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
+        // 饼图颜色
+        colors.add(Color.rgb(205, 205, 205));
+        colors.add(Color.rgb(114, 188, 223));
+        colors.add(Color.rgb(255, 123, 124));
+        colors.add(Color.rgb(57, 135, 200));
+        /*for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);*/
         colors.add(ColorTemplate.getHoloBlue());
         dataSet.setColors(colors);
         PieData data = new PieData(dataSet);
@@ -204,4 +229,17 @@ public class ConsumptionActivity extends AppCompatActivity implements OnChartVal
     public void onNothingSelected() {
 
     }
+    //初始化标题栏
+    private void initToolBar() {
+        toolbar_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        toolbar_title.setText("本月消费");
+        toolbar_more.setVisibility(View.GONE);
+
+    }
+
 }

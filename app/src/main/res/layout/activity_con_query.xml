@@ -5,14 +5,11 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              tools:context="com.example.mrz.newproject.controller.activity.ScoreSelectActivity">
+              tools:context="com.example.mrz.newproject.controller.activity.ConSelectActivity">
 
     <include layout="@layout/layout_toolbar"/>
-
-
-
-
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -142,7 +139,6 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
